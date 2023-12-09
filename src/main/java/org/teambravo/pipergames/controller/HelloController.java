@@ -1,4 +1,4 @@
-package org.teambravo.pipergames;
+package org.teambravo.pipergames.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
