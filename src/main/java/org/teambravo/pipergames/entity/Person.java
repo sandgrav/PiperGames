@@ -21,7 +21,8 @@ public class Person {
     @Column(name = "person_address", length = 50)
     private String address;
     @Column(name = "person_postal_code", length = 10) //datatyp int är automatiskt not null?
-    private int postalCode;
+//    private int postalCode;
+    private String postalCode;
     @Column(name = "person_city", length = 60)
     private String city;
     @Column(name = "person_country", length = 60)
@@ -34,7 +35,8 @@ public class Person {
     }
 
     // Behöver konstruktorn justeras? Behöver alla värden finnas med i den?
-    public Person(int id, String firstName, String lastName, String nickName, String address, int postalCode, String city, String country, String email) {
+//    public Person(int id, String firstName, String lastName, String nickName, String address, int postalCode, String city, String country, String email) {
+    public Person(int id, String firstName, String lastName, String nickName, String address, String postalCode, String city, String country, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -86,11 +88,13 @@ public class Person {
         this.address = address;
     }
 
-    public int getPostalCode() {
+//    public int getPostalCode() { return postalCode; }
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(int postalCode) {
+//    public void setPostalCode(int postalCode) { this.postalCode = postalCode; }
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 

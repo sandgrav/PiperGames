@@ -8,12 +8,14 @@ import javax.persistence.*;
 public class StaffClass {
     // Primary key
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "staff_id")
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "person_id")
+//    @ManyToOne
+//    @JoinColumn(name = "person_id")
+    @OneToOne
+    @MapsId
     private Person person;
 
     public StaffClass() {
@@ -23,13 +25,16 @@ public class StaffClass {
         this.id = id;
         this.person = person;
     }
-    
-    // Getters och setters
-    public int getStaff_id() {
+
+    public StaffClass(Person person) {
+        this.person = person;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setStaff_id(int staff_id) {
+    public void setId(int id) {
         this.id = id;
     }
 

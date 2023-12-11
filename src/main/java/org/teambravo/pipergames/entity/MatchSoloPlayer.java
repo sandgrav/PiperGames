@@ -13,11 +13,11 @@ public class MatchSoloPlayer {
     private int id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "player1_id", referencedColumnName = "player_id")
+    @JoinColumn(name = "player1_id")   //, referencedColumnName = "player_id")
     private Player player1;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "player2_id", referencedColumnName = "player_id")
+    @JoinColumn(name = "player2_id")   //, referencedColumnName = "player_id")
     private Player player2;
 
     @Column(name = "date")
