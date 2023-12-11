@@ -5,13 +5,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.teambravo.pipergames.view.MainScreen">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.teambravo.pipergames.view.MainScreen">
   <padding>
     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
   </padding>
-  <JFXButton layoutX="182.0" layoutY="14.0" onAction="#closeProgram" text="X" />
 
-  <Label fx:id="welcomeText" text="Welcome to Piper Games!" />
-   <Button mnemonicParsing="false" onAction="#closeProgram" text="X" />
   <TabPane fx:id="tabPane" prefHeight="500.0" prefWidth="800.0" />
+  <JFXButton layoutX="843.0" layoutY="7.0" onAction="#closeProgram" text="X" />
 </AnchorPane>

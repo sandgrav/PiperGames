@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.teambravo.pipergames.SampleLogIn;
 import org.teambravo.pipergames.entity.Game;
 import org.teambravo.pipergames.entity.TeamClass;
 
@@ -17,6 +18,7 @@ public class MainScreen {
     private TabPane tabPane;
 
     private TableView<TeamClass> teamTable;
+    private SampleLogIn sampleLogIn;
 
     public void initialize() {
         // Add tabs to the TabPane
@@ -67,8 +69,7 @@ public class MainScreen {
         team.setTeam_id(1);
         team.setGame(new Game());
     }
-
+    @FXML
     public void closeProgram(ActionEvent actionEvent) {
-
     }
 }

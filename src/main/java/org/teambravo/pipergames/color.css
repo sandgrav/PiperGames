@@ -5,7 +5,7 @@
 .colorBackgroundforButtons {
     -fx-background-color: linear-gradient( to right top,#facd68, #c29c38);
 }
-colorButton {
+.colorButton {
     -fx-font-weight: 100;
 
 }
