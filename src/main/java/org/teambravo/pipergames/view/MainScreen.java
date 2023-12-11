@@ -1,5 +1,6 @@
 package org.teambravo.pipergames.view;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -65,5 +66,9 @@ public class MainScreen {
         team.setName("1");
         team.setTeam_id(1);
         team.setGame(new Game());
+    }
+
+    public void closeProgram(ActionEvent actionEvent) {
+
     }
 }
