@@ -3,6 +3,8 @@
 package org.teambravo.pipergames.entity;
 
 
+import javafx.scene.Node;
+
 import javax.persistence.*;
 
 @Entity
@@ -29,6 +31,7 @@ public class TeamClass {
     public TeamClass(String teamName) {
 
     }
+
 
     public int getTeam_id() {
         return id;

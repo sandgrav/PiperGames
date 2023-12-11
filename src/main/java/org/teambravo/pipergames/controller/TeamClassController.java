@@ -1,5 +1,9 @@
 package org.teambravo.pipergames.controller;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import org.hibernate.Session;
 import org.teambravo.pipergames.entity.TeamClass;
 
 import javax.persistence.EntityManager;
@@ -8,7 +12,14 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.util.List;
 
+
+
 public class TeamClassController {
+    @FXML
+    private TextField teamNameField;
+
+    @FXML
+    private TableView<TeamClass> teamTable;
 
     public static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("hibernate");
 
@@ -117,7 +128,28 @@ public class TeamClassController {
         }
     }
 
+    public void updateDatabase(TeamClass team) {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("hibernate");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = null;
 
+        try {
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+
+            // Merge the entity to update it in the database
+            entityManager.merge(team);
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            entityManager.close();
+        }
+    }
 }
 
 
