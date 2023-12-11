@@ -7,12 +7,14 @@ import java.util.List;
 @Table(name = "players")
 public class Player {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "player_id")
     private int playerId;
 
-    @ManyToOne
-    @JoinColumn(name = "person_id")
+//    @ManyToOne
+//    @JoinColumn(name = "person_id")
+    @OneToOne
+    @MapsId
     private Person person;
 
     @ManyToOne
