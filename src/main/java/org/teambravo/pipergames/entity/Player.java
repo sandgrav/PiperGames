@@ -22,10 +22,10 @@ public class Player {
     private Team team;
 
     @OneToMany(mappedBy = "player1", cascade = CascadeType.ALL)
-    private List<MatchSoloPlayer> matchesAsPlayer1 = new ArrayList<>();
+    private List<MatchSolo> matchesAsPlayer1 = new ArrayList<>();
 
     @OneToMany(mappedBy = "player2", cascade = CascadeType.ALL)
-    private List<MatchSoloPlayer> matchesAsPlayer2 = new ArrayList<>();
+    private List<MatchSolo> matchesAsPlayer2 = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "game_id")
@@ -34,7 +34,7 @@ public class Player {
     public Player() {
     }
 
-    public Player(int playerId, Person person, Team team, List<MatchSoloPlayer> matchesAsPlayer1, List<MatchSoloPlayer> matchesAsPlayer2, Game game) {
+    public Player(int playerId, Person person, Team team, List<MatchSolo> matchesAsPlayer1, List<MatchSolo> matchesAsPlayer2, Game game) {
         this.playerId = playerId;
         this.person = person;
         this.team = team;
@@ -43,7 +43,7 @@ public class Player {
         this.game = game;
     }
 
-    public Player(Person person, Team team, List<MatchSoloPlayer> matchesAsPlayer1, List<MatchSoloPlayer> matchesAsPlayer2, Game game) {
+    public Player(Person person, Team team, List<MatchSolo> matchesAsPlayer1, List<MatchSolo> matchesAsPlayer2, Game game) {
         this.person = person;
         this.team = team;
         this.matchesAsPlayer1 = matchesAsPlayer1;
@@ -83,19 +83,19 @@ public class Player {
         this.team = team;
     }
 
-    public List<MatchSoloPlayer> getMatchesAsPlayer1() {
+    public List<MatchSolo> getMatchesAsPlayer1() {
         return matchesAsPlayer1;
     }
 
-    public void setMatchesAsPlayer1(List<MatchSoloPlayer> matchesAsPlayer1) {
+    public void setMatchesAsPlayer1(List<MatchSolo> matchesAsPlayer1) {
         this.matchesAsPlayer1 = matchesAsPlayer1;
     }
 
-    public List<MatchSoloPlayer> getMatchesAsPlayer2() {
+    public List<MatchSolo> getMatchesAsPlayer2() {
         return matchesAsPlayer2;
     }
 
-    public void setMatchesAsPlayer2(List<MatchSoloPlayer> matchesAsPlayer2) {
+    public void setMatchesAsPlayer2(List<MatchSolo> matchesAsPlayer2) {
         this.matchesAsPlayer2 = matchesAsPlayer2;
     }
 

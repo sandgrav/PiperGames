@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "solo_matches")
-public class MatchSoloPlayer {
+public class MatchSolo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,10 +24,10 @@ public class MatchSoloPlayer {
     private LocalDateTime date;
 
 
-    public MatchSoloPlayer() {
+    public MatchSolo() {
     }
 
-    public MatchSoloPlayer(int id, Player player1, Player player2, LocalDateTime date) {
+    public MatchSolo(int id, Player player1, Player player2, LocalDateTime date) {
         this.id = id;
         this.player1 = player1;
         this.player2 = player2;

@@ -3,7 +3,7 @@ package org.teambravo.pipergames;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.teambravo.pipergames.controller.TeamClassController;
+import org.teambravo.pipergames.controller.TeamController;
 import org.teambravo.pipergames.view.SceneClass;
 
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        TeamClassController teamClassController = new TeamClassController();
+        TeamController teamController = new TeamController();
 //        Menu menu = new Menu();
 //        menu.showMenu(teamClassController);
         launch();
