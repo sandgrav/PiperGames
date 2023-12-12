@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.teambravo.pipergames.controller.TeamController;
-import org.teambravo.pipergames.view.LoginController;
+import org.teambravo.pipergames.view.SceneClass;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ public class Main extends Application {
 //        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
 //        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Personal-scene.fxml"));
 //        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-        Scene scene = LoginController.load(stage);
+        Scene scene = SceneClass.load(stage);
         stage.setTitle("Piper Games");
         stage.setScene(scene);
         stage.show();

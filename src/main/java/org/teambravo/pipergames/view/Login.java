@@ -33,7 +33,7 @@ public class Login implements Initializable {
         Staff staff = userTable.getSelectionModel().getSelectedItem();
         if (staff != null) {
 //            staff.login ??
-            LoginController.setRoot("player");
+            SceneClass.setRoot("viewAll");
         }
     }
 
