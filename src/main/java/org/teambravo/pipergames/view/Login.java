@@ -1,7 +1,5 @@
 package org.teambravo.pipergames.view;
 
-import javafx.beans.Observable;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,13 +7,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import org.teambravo.pipergames.controller.StaffClassController;
-import org.teambravo.pipergames.entity.Person;
-import org.teambravo.pipergames.entity.StaffClass;
+import org.teambravo.pipergames.controller.StaffController;
+import org.teambravo.pipergames.entity.Staff;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,25 +22,25 @@ public class Login implements Initializable {
     @FXML
     public Button loginButton;
     @FXML
-    private TableView<StaffClass> userTable;
+    private TableView<Staff> userTable;
     @FXML
-    private TableColumn<StaffClass, Integer> idCol;
+    private TableColumn<Staff, Integer> idCol;
     @FXML
-    private TableColumn<StaffClass, String> nickNameCol;
+    private TableColumn<Staff, String> nickNameCol;
 
     @FXML
     protected void handleLoginButtonAction(ActionEvent e) throws IOException {
-        StaffClass staff = userTable.getSelectionModel().getSelectedItem();
+        Staff staff = userTable.getSelectionModel().getSelectedItem();
         if (staff != null) {
 //            staff.login ??
-            SceneClass.setRoot("player");
+            LoginController.setRoot("player");
         }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        List<StaffClass> staff = new StaffClassController().getAllStaff(false);
-        ObservableList<StaffClass> items = FXCollections.observableList(staff);
+        List<Staff> staff = new StaffController().getAllStaff(false);
+        ObservableList<Staff> items = FXCollections.observableList(staff);
         idCol.setCellValueFactory(
                 new PropertyValueFactory<>("id")
         );

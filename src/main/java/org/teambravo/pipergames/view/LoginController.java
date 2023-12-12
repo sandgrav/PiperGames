@@ -8,7 +8,7 @@ import org.teambravo.pipergames.Main;
 
 import java.io.IOException;
 
-public class SceneClass {
+public class LoginController {
     private static Scene scene;
 
     public static Scene load(Stage stage) throws IOException {

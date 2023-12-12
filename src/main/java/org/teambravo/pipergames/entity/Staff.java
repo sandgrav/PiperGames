@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "Staff")
-public class StaffClass {
+public class Staff {
     // Primary key
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,15 +18,15 @@ public class StaffClass {
     @MapsId
     private Person person;
 
-    public StaffClass() {
+    public Staff() {
     }
 
-    public StaffClass(int id, Person person) {
+    public Staff(int id, Person person) {
         this.id = id;
         this.person = person;
     }
 
-    public StaffClass(Person person) {
+    public Staff(Person person) {
         this.person = person;
     }
 

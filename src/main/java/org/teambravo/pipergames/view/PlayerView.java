@@ -12,7 +12,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import org.teambravo.pipergames.controller.PlayerController;
-import org.teambravo.pipergames.controller.TeamClassController;
+import org.teambravo.pipergames.controller.TeamController;
 import org.teambravo.pipergames.entity.Player;
 import org.teambravo.pipergames.entity.Team;
 
@@ -54,7 +54,7 @@ public class PlayerView implements Initializable {
 
     @FXML
     protected void handleAllPlayersInTeamsButtonAction(ActionEvent e) {
-        List<Team> teams = new TeamClassController().getAllTeams(false);
+        List<Team> teams = new TeamController().getAllTeams(false);
         ObservableList<Team> items = FXCollections.observableList(teams);
         teamNameCol.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getName()));
         teamTable.setItems(items);
