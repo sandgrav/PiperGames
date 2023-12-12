@@ -38,11 +38,11 @@ public class ViewAllController {
     }
     @FXML
     private void handleTeamMatchTabButton(ActionEvent event) throws IOException {
-        loadFXML("/org/teambravo/pipergames/soloMatchTab.fxml", event, "Teammatcher");
+        loadFXML("/org/teambravo/pipergames/teamMatchTab.fxml", event, "Teammatcher");
     }
     @FXML
     private void handleStaffTabButton(ActionEvent event) throws IOException {
-        loadFXML("/org/teambravo/pipergames/soloMatchTab.fxml", event, "Personal");
+        loadFXML("/org/teambravo/pipergames/staffTab.fxml", event, "Personal");
     }
     private void loadFXML(String fxmlPath, ActionEvent event, String title) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlPath));
