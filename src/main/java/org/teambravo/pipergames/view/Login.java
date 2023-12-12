@@ -34,6 +34,7 @@ public class Login implements Initializable {
         if (staff != null) {
 //            staff.login ??
             SceneClass.setRoot("viewAll");
+//            SceneClass.setRoot("mainWindow");
         }
     }
 
