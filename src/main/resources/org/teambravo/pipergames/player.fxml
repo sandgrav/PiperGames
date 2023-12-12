@@ -21,7 +21,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
                <children>
-                  <Button mnemonicParsing="false" text="Spelare i lag" />
+                  <Button fx:id="playersInTeamsButton" mnemonicParsing="false" onAction="#handleAllPlayersInTeamsButtonAction" text="Spelare i lag" />
                   <Button fx:id="allPlayersButton" mnemonicParsing="false" onAction="#handleAllPlayersButtonAction" text="Alla Spelare" />
                </children>
                <VBox.margin>

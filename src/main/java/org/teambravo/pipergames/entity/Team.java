@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "Teams")
 
-public class TeamClass {
+public class Team {
     //Primary key
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,18 +24,24 @@ public class TeamClass {
     @JoinColumn(name = "game_id")
     private Game game;
 
-    @OneToMany(mappedBy = "TeamClass", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Player> players = new ArrayList<>();
 
-    public TeamClass() {
+    public Team() {
 
     }
 
-    public TeamClass(String teamName) {
+    public Team(int id, String name, Game game) {
+        this.id = id;
+        this.name = name;
+        this.game = game;
+    }
+
+    public Team(String teamName) {
 
     }
 
-    public int getTeam_id() {
+    public int getId() {
         return id;
     }
 
@@ -47,7 +53,11 @@ public class TeamClass {
         return game;
     }
 
-    public void setTeam_id(int team_id) {
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -59,13 +69,8 @@ public class TeamClass {
         this.game = game;
     }
 
-    public TeamClass(int id, String name, Game game) {
-        this.id = id;
-        this.name = name;
-        this.game = game;
-    }
-
-    public TeamClass(TeamClass teamClass) {
+    public void setPlayers(List<Player> players) {
+        this.players = players;
     }
 }
 

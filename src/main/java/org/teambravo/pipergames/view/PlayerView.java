@@ -7,14 +7,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import org.teambravo.pipergames.controller.PlayerController;
+import org.teambravo.pipergames.controller.TeamClassController;
 import org.teambravo.pipergames.entity.Player;
-import org.teambravo.pipergames.entity.StaffClass;
-import org.teambravo.pipergames.entity.TeamClass;
+import org.teambravo.pipergames.entity.Team;
 
 import java.net.URL;
 import java.util.List;
@@ -22,9 +22,11 @@ import java.util.ResourceBundle;
 
 public class PlayerView implements Initializable {
     @FXML
-    private TableView<TeamClass> teamTable;
+    private Button allPlayersButton;
     @FXML
-    private TableColumn<Player, String> teamNameCol;
+    private TableView<Team> teamTable;
+    @FXML
+    private TableColumn<Team, String> teamNameCol;
     @FXML
     private TableView<Player> playerTable;
     @FXML
@@ -50,30 +52,40 @@ public class PlayerView implements Initializable {
         playerTable.setItems(items);
     }
 
+    @FXML
+    protected void handleAllPlayersInTeamsButtonAction(ActionEvent e) {
+        List<Team> teams = new TeamClassController().getAllTeams(false);
+        ObservableList<Team> items = FXCollections.observableList(teams);
+        teamNameCol.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getName()));
+        teamTable.setItems(items);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ObservableList<TeamClass> teamSelectedItems = teamTable.getSelectionModel().getSelectedItems();
-        ObservableList<Player> playerSelectedItems = playerTable.getSelectionModel().getSelectedItems();
+        ObservableList<Team> teamSelectedItems = teamTable.getSelectionModel().getSelectedItems();
         teamSelectedItems.addListener(
-                new ListChangeListener<TeamClass>() {
+                new ListChangeListener<Team>() {
                     @Override
-                    public void onChanged(Change<? extends TeamClass> change) {
-                        if (change.getList().size() == 1) {
-                            TeamClass team = change.getList().get(0);
-
+                    public void onChanged(Change<? extends Team> change) {
+                        playerTable.getItems().clear();
+                        for (Team team:
+                                teamTable.getSelectionModel().getSelectedItems()) {
+                            List<Player> players = team.getPlayers();
+                            ObservableList<Player> items = FXCollections.observableList(players);
+                            firstNameCol.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getPerson().getFirstName()));
+                            lastNameCol.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getPerson().getLastName()));
+                            nickNameCol.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getPerson().getNickName()));
+                            playerTable.getItems().addAll(items);
                         }
                     }
                 }
         );
+
+        ObservableList<Player> playerSelectedItems = playerTable.getSelectionModel().getSelectedItems();
         playerSelectedItems.addListener(
                 new ListChangeListener<Player>() {
                     @Override
                     public void onChanged(Change<? extends Player> change) {
-                        playerTable.getItems().clear();
-                        for (TeamClass team:
-                            teamTable.getSelectionModel().getSelectedItems()) {
-                            //team.g
-                        }
                         if (change.getList().size() == 1) {
                             Player player = change.getList().get(0);
                             firstNameText.setText(player.getPerson().getFirstName());
