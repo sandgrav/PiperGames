@@ -18,7 +18,7 @@ public class Player {
     private Person person;
 
     @ManyToOne
-    @JoinColumn(name = "team_id1")
+    @JoinColumn(name = "team_id")
     private TeamClass team;
 
     @OneToMany(mappedBy = "player1", cascade = CascadeType.ALL)

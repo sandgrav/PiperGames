@@ -4,6 +4,8 @@ package org.teambravo.pipergames.entity;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Teams")
@@ -21,6 +23,9 @@ public class TeamClass {
     @ManyToOne
     @JoinColumn(name = "game_id")
     private Game game;
+
+    @OneToMany(mappedBy = "TeamClass", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Player> players = new ArrayList<>();
 
     public TeamClass() {
 
