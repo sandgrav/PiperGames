@@ -113,10 +113,10 @@ public class PlayerController {
             transaction = entityManager.getTransaction();
             transaction.begin();
             Optional<Player> possiblyAPlayer = Optional.ofNullable(entityManager.find(Player.class,playerId));
-            Optional<TeamClass> possiblyATeam = Optional.ofNullable(entityManager.find(TeamClass.class, teamId));
+            Optional<Team> possiblyATeam = Optional.ofNullable(entityManager.find(Team.class, teamId));
             if(possiblyAPlayer.isPresent() && possiblyATeam.isPresent()){
                 System.out.println("Båda finns");
-                TeamClass teamClass = possiblyATeam.get();
+                Team teamClass = possiblyATeam.get();
                 player = possiblyAPlayer.get();
                 player.addTeamClass(teamClass);
             }

@@ -17,6 +17,7 @@ import org.teambravo.pipergames.controller.StaffClassController;
 import org.teambravo.pipergames.entity.Person;
 import org.teambravo.pipergames.entity.StaffClass;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -32,10 +33,11 @@ public class Login implements Initializable {
     private TableColumn<StaffClass, String> nickNameCol;
 
     @FXML
-    protected void handleLoginButtonAction(ActionEvent e) {
+    protected void handleLoginButtonAction(ActionEvent e) throws IOException {
         StaffClass staff = userTable.getSelectionModel().getSelectedItem();
         if (staff != null) {
-//            staff.
+//            staff.login ??
+            SceneClass.setRoot("player");
         }
     }
 

@@ -1,6 +1,6 @@
 package org.teambravo.pipergames.controller;
 
-import org.teambravo.pipergames.entity.TeamClass;
+import org.teambravo.pipergames.entity.Team;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -39,20 +39,20 @@ public class TeamClassController {
     }
 
     //READ
-    public List<TeamClass> getAllTeams (boolean printOut){
+    public List<Team> getAllTeams (boolean printOut){
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
         try {
             transaction = entityManager.getTransaction();
             transaction.begin();
-            List<TeamClass> teamResultList = entityManager.createQuery("FROM TeamClass", TeamClass.class).getResultList();
+            List<Team> teamResultList = entityManager.createQuery("FROM Team", Team.class).getResultList();
             // teamClassToReturn.addAll(teamResultList.getResultList());
             transaction.commit();
             if (printOut) {
-                for (TeamClass teamClass :
+                for (Team team :
                         teamResultList) {
-                    System.out.println(teamClass.getName() + ". " + teamClass.getName());
+                    System.out.println(team.getName() + ". " + team.getName());
 
                 }
             }
@@ -68,13 +68,13 @@ public class TeamClassController {
         }
         return null;
     }
-    public boolean updateTeam(TeamClass teamClass){
+    public boolean updateTeam(Team team){
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
         try {
             transaction = entityManager.getTransaction();
             transaction.begin();
-            entityManager.merge(teamClass);
+            entityManager.merge(team);
             transaction.commit();
             return true;
         } catch (Exception e){
@@ -96,7 +96,7 @@ public class TeamClassController {
             transaction.begin();
 
 
-            TeamClass teamToDelete = entityManager.find(TeamClass.class, teamId);
+            Team teamToDelete = entityManager.find(Team.class, teamId);
 
             if (teamToDelete != null) {
                 entityManager.remove(teamToDelete);

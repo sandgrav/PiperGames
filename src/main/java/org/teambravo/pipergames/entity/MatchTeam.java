@@ -16,11 +16,11 @@ public class MatchTeam {
 
     @ManyToOne
     @JoinColumn(name = "team1_id", referencedColumnName = "team_id")
-    private TeamClass teamClass1;
+    private Team team1;
 
     @ManyToOne
     @JoinColumn(name = "team2_id", referencedColumnName = "team_id")
-    private TeamClass teamClass2;
+    private Team team2;
 
     @Column(name  = "date")
     private int date;
@@ -29,10 +29,10 @@ public class MatchTeam {
     public MatchTeam() {
     }
 
-    public MatchTeam(int id, TeamClass player1, TeamClass player2, int date) {
+    public MatchTeam(int id, Team player1, Team player2, int date) {
         this.id = id;
-        this.teamClass1 = teamClass1;
-        this.teamClass2 = teamClass2;
+        this.team1 = team1;
+        this.team2 = team2;
         this.date = date;
     }
 
@@ -44,20 +44,20 @@ public class MatchTeam {
         this.id = id;
     }
 
-    public TeamClass getTeamClass1() {
-        return teamClass1;
+    public Team getTeamClass1() {
+        return team1;
     }
 
-    public void setTeamClass1(TeamClass teamClass1) {
-        this.teamClass1 = teamClass1;
+    public void setTeamClass1(Team team1) {
+        this.team1 = team1;
     }
 
-    public TeamClass getTeamclass2() {
-        return teamClass2;
+    public Team getTeamclass2() {
+        return team2;
     }
 
-    public void setTeamClass2(TeamClass teamClass2) {
-        this.teamClass2 = teamClass2;
+    public void setTeamClass2(Team team2) {
+        this.team2 = team2;
     }
 
     public int getDate() {

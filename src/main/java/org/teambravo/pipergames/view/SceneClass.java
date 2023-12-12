@@ -8,13 +8,13 @@ import org.teambravo.pipergames.Main;
 
 import java.io.IOException;
 
-public class MainWindow {
+public class SceneClass {
     private static Scene scene;
 
     public static Scene load(Stage stage) throws IOException {
 //        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Personal-scene.fxml"));
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
-        scene = new Scene(fxmlLoader.load(), 600, 400);
+        scene = new Scene(fxmlLoader.load());
         return scene;
     }
 

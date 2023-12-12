@@ -73,7 +73,7 @@ public class StaffClassController {
 
     /* // Behövs inte uppdatera staff tror jag
 
-    public boolean updateTeam(org.teambravo.entity.TeamClass teamClass){
+    public boolean updateTeam(org.teambravo.entity.Team teamClass){
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
         try {

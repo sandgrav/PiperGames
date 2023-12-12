@@ -18,8 +18,8 @@ public class Player {
     private Person person;
 
     @ManyToOne
-    @JoinColumn(name = "team_id1")
-    private TeamClass team;
+    @JoinColumn(name = "team_id")
+    private Team team;
 
     @OneToMany(mappedBy = "player1", cascade = CascadeType.ALL)
     private List<MatchSoloPlayer> matchesAsPlayer1 = new ArrayList<>();
@@ -31,6 +31,25 @@ public class Player {
     @JoinColumn(name = "game_id")
     private Game game;
 
+    public Player() {
+    }
+
+    public Player(int playerId, Person person, Team team, List<MatchSoloPlayer> matchesAsPlayer1, List<MatchSoloPlayer> matchesAsPlayer2, Game game) {
+        this.playerId = playerId;
+        this.person = person;
+        this.team = team;
+        this.matchesAsPlayer1 = matchesAsPlayer1;
+        this.matchesAsPlayer2 = matchesAsPlayer2;
+        this.game = game;
+    }
+
+    public Player(Person person, Team team, List<MatchSoloPlayer> matchesAsPlayer1, List<MatchSoloPlayer> matchesAsPlayer2, Game game) {
+        this.person = person;
+        this.team = team;
+        this.matchesAsPlayer1 = matchesAsPlayer1;
+        this.matchesAsPlayer2 = matchesAsPlayer2;
+        this.game = game;
+    }
 
     public Game getGame() {
         return game;
@@ -39,8 +58,6 @@ public class Player {
     public void setGame(Game game) {
         this.game = game;
     }
-
-
 
     public int getPlayerId() {
         return playerId;
@@ -58,11 +75,11 @@ public class Player {
         this.person = person;
     }
 
-    public TeamClass getTeam() {
+    public Team getTeam() {
         return team;
     }
 
-    public void setTeam(TeamClass team) {
+    public void setTeam(Team team) {
         this.team = team;
     }
 
