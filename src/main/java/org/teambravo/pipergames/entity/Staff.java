@@ -18,6 +18,9 @@ public class Staff {
     @MapsId
     private Person person;
 
+    @Column(name = "logged_in")
+    private Boolean loggedIn;
+
     public Staff() {
     }
 
@@ -26,8 +29,9 @@ public class Staff {
         this.person = person;
     }
 
-    public Staff(Person person) {
+    public Staff(Person person, boolean loggedIn) {
         this.person = person;
+        this.loggedIn = loggedIn;
     }
 
     public int getId() {
@@ -44,6 +48,14 @@ public class Staff {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
     }
 }
 

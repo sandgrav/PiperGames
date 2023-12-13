@@ -15,15 +15,15 @@ public class StaffController {
     // CRUD
 
     //CREATE
-    /* // Ska man kunna lägga till staff? Tänker att de kopplas direkt med foreign_keys
-    public boolean saveStaff(Object staffClass) {
+    // Ska man kunna lägga till staff? Tänker att de kopplas direkt med foreign_keys
+    public boolean save(Staff staff) {
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
         try {
             transaction = entityManager.getTransaction();
             transaction.begin();
-            entityManager.persist(teamClass);
+            entityManager.persist(staff);
             transaction.commit();
             return true;
         } catch (Exception e){
@@ -37,7 +37,6 @@ public class StaffController {
         return false;
 
     }
-    */
 
     //READ - Läsa av staff id och person id
     public List<Staff> getAllStaff (boolean printOut){
@@ -71,15 +70,15 @@ public class StaffController {
         return null;
     }
 
-    /* // Behövs inte uppdatera staff tror jag
+    // Behövs inte uppdatera staff tror jag
 
-    public boolean updateTeam(org.teambravo.entity.Team teamClass){
+    public boolean update(Staff staff){
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
         try {
             transaction = entityManager.getTransaction();
             transaction.begin();
-            entityManager.merge(teamClass);
+            entityManager.merge(staff);
             transaction.commit();
             return true;
         } catch (Exception e){
@@ -91,7 +90,7 @@ public class StaffController {
             entityManager.close();
         }
         return false;
-    } */
+    }
 
     //Deletea staff utifrån
     public boolean deleteStaff(int staff_id) {
@@ -123,8 +122,6 @@ public class StaffController {
             entityManager.close();
         }
     }
-
-
 }
 
 
