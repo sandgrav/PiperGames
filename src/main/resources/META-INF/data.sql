@@ -19,6 +19,7 @@ INSERT INTO staff(person_person_id) VALUES (@PersonKey);
 insert into teams(team_name) values('Arsenal');
 SELECT @TeamKey := @@IDENTITY;
 
+
 insert into persons(person_first_name, person_last_name, person_nickname) values('Robin', 'Andersson', 'OneHandedOnly');
 SELECT @PersonKey := @@IDENTITY;
 INSERT INTO players(person_person_id, team_id) VALUES (@PersonKey, @TeamKey);
@@ -27,7 +28,7 @@ insert into persons(person_first_name, person_last_name, person_nickname) values
 SELECT @PersonKey := @@IDENTITY;
 INSERT INTO players(person_person_id, team_id) VALUES (@PersonKey, @TeamKey);
 
-insert into teams(team_name) values('Liverpool');
+insert into teams(team_name) values('Manchester');
 SELECT @TeamKey := @@IDENTITY;
 
 insert into persons(person_first_name, person_last_name, person_nickname) values('Daniel', 'Hedström', 'Drome');
