@@ -7,9 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import org.teambravo.pipergames.controller.MatchSoloController;
 import org.teambravo.pipergames.controller.MatchTeamController;
 import org.teambravo.pipergames.entity.MatchSolo;
@@ -40,6 +38,10 @@ public class SoloMatchTabController implements Initializable {
     @FXML
     private final MatchSoloController matchSoloController = new MatchSoloController();
     @FXML
+    private Label labelDeleteMatch;
+    @FXML
+    private ChoiceBox<Integer> choiceBoxDeleteMatch;
+    @FXML
     private TableView<Player> playerTable;
     @FXML
     private TableColumn<Player, String> firstNameCol;
@@ -47,10 +49,43 @@ public class SoloMatchTabController implements Initializable {
     private TableColumn<Player, String> lastNameCol;
     @FXML
     private TableColumn<Player, String> nickNameCol;
+    @FXML
+    private TextField matchIdTextField;
+
 
 
     @FXML
-    protected void handleShowAllMatchesButtonAction(ActionEvent e) {
+    private void handleDeleteMatchButton() {
+        String matchIdString = matchIdTextField.getText();
+
+        try {
+            int matchId = Integer.parseInt(matchIdString);
+            MatchSolo matchToDelete = matchSoloController.getMatchById(matchId).orElse(null);
+
+            if (matchToDelete != null) {
+                // Ta bort matchen från databasen och tabellen
+                matchSoloController.deleteMatchById(matchId);
+                matchTable.getItems().remove(matchToDelete);
+
+                showAlert("Match borttagen", "Match med ID " + matchId + " har tagits bort.");
+            } else {
+                showAlert("Ingen match med det Match-ID", "Match med ID " + matchId + " hittades ej.");
+            }
+        } catch (NumberFormatException e) {
+            showAlert("Felaktigt värde", "Vänligen ange ett Match ID.");
+        }
+    }
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    @FXML
+    protected void handleShowAllMatchesButtonAction (ActionEvent e){
         List<MatchSolo> matches = matchSoloController.getAllMatches();
         ObservableList<MatchSolo> items = FXCollections.observableList(matches);
 
@@ -60,12 +95,13 @@ public class SoloMatchTabController implements Initializable {
         player2TableCol.setCellValueFactory(tf -> new SimpleStringProperty(String.valueOf(tf.getValue().getPlayer2().getPerson().getNickName())));
 
         matchTable.setItems(items);
-    }
-
+        }
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //deleteMatchButton.setOnAction(event -> handleDeleteMatchButton());
+
     }
 }
