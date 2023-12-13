@@ -20,7 +20,7 @@ public class Team {
     @Column(name = "team_name", length = 50)
     private String name;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "game_id")
     private Game game;
 

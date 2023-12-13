@@ -13,8 +13,8 @@
     <children>
         <TableView fx:id="userTable" layoutX="60.0" layoutY="65.0" prefHeight="282.0" prefWidth="400.0">
             <columns>
-                <TableColumn fx:id="idCol" prefWidth="75.0" text="Lag" />
-                <TableColumn id="nickNameCol" fx:id="nickNameCol" prefWidth="75.0" text="Laget" />
+                <TableColumn fx:id="GameColumn" prefWidth="75.0" text="Lag" />
+                <TableColumn fx:id="TeamColumn" prefWidth="75.0" text="Spel" />
             </columns>
         </TableView>
     </children>
