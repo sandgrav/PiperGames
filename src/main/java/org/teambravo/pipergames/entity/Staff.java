@@ -51,12 +51,13 @@ public class Staff {
     }
 
     public boolean isLoggedIn() {
-        return loggedIn;
+        return Boolean.TRUE.equals((loggedIn));
     }
 
     public void setLoggedIn(boolean loggedIn) {
         this.loggedIn = loggedIn;
     }
+
 }
 
 
