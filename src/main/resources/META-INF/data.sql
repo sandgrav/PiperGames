@@ -1,19 +1,19 @@
 -- Insert of data in staff and persons
 insert into persons(person_first_name, person_last_name, person_nickname) values('Fabian', 'Knopf', 'Fabian');
 SELECT @PersonKey := @@IDENTITY;
-INSERT INTO staff VALUES (@PersonKey);
+INSERT INTO staff(person_person_id) VALUES (@PersonKey);
 
 insert into persons(person_first_name, person_last_name, person_nickname) values('Linus', 'Axelsson', 'Linus');
 SELECT @PersonKey := @@IDENTITY;
-INSERT INTO staff VALUES (@PersonKey);
+INSERT INTO staff(person_person_id) VALUES (@PersonKey);
 
 insert into persons(person_first_name, person_last_name, person_nickname) values('Johanna', 'Selander', 'Johanna');
 SELECT @PersonKey := @@IDENTITY;
-INSERT INTO staff VALUES (@PersonKey);
+INSERT INTO staff(person_person_id) VALUES (@PersonKey);
 
 insert into persons(person_first_name, person_last_name, person_nickname) values('Morten', 'Sandgrav', 'Morten');
 SELECT @PersonKey := @@IDENTITY;
-INSERT INTO staff VALUES (@PersonKey);
+INSERT INTO staff(person_person_id) VALUES (@PersonKey);
 
 -- Insert of data in players and persons
 insert into teams(team_name) values('Arsenal');
