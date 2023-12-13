@@ -69,7 +69,7 @@ public class MatchSoloController {
     }
 
     // Delete
-    public void deleteMatchSoloPlayer(int matchId) {
+    public void deleteMatchById(int matchId) {
         EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction et = null;
 

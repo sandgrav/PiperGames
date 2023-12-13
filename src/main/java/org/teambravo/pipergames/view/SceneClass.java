@@ -12,7 +12,7 @@ public class SceneClass {
     private static Scene scene;
 
     public static Scene load(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("soloMatchTab.fxml"));
         scene = new Scene(fxmlLoader.load());
         return scene;
     }

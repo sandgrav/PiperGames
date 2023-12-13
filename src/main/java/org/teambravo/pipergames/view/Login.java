@@ -33,8 +33,8 @@ public class Login implements Initializable {
         Staff staff = userTable.getSelectionModel().getSelectedItem();
         if (staff != null) {
 //            staff.login ??
-            SceneClass.setRoot("viewAll");
-//            SceneClass.setRoot("mainWindow");
+            //SceneClass.setRoot("viewAll");
+             SceneClass.setRoot("mainWindow");
         }
     }
 
