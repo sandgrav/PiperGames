@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.teambravo.pipergames.view.TeamTabController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.teambravo.pipergames.view.TeamTabController">
     <children>
-        <TableView fx:id="userTable" layoutX="60.0" layoutY="65.0" prefHeight="282.0" prefWidth="400.0">
+        <TableView fx:id="userTable" layoutX="38.0" layoutY="45.0" prefHeight="347.0" prefWidth="462.0">
             <columns>
-                <TableColumn fx:id="GameColumn" prefWidth="75.0" text="Lag" />
-                <TableColumn fx:id="TeamColumn" prefWidth="75.0" text="Spel" />
+                <TableColumn fx:id="Spel" prefWidth="75.0" text="Spel" />
+                <TableColumn fx:id="Lag" prefWidth="107.0" text="Lag" />
+            <TableColumn fx:id="Spelare" prefWidth="279.0" text="Spelare" />
             </columns>
         </TableView>
+      <TextField layoutX="38.0" layoutY="14.0" text="Lägg till spelare till lag:" />
     </children>
 
 </AnchorPane>

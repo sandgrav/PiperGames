@@ -26,7 +26,6 @@ SELECT @TeamKey := @@IDENTITY;
 
 
 
-
 insert into persons(person_first_name, person_last_name, person_nickname) values('Robin', 'Andersson', 'OneHandedOnly');
 SELECT @PersonKey := @@IDENTITY;
 INSERT INTO players(person_person_id, team_id) VALUES (@PersonKey, @TeamKey);

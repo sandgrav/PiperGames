@@ -11,6 +11,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.teambravo.pipergames.controller.GameController;
 import org.teambravo.pipergames.controller.TeamController;
 import org.teambravo.pipergames.entity.Game;
+import org.teambravo.pipergames.entity.Person;
+import org.teambravo.pipergames.entity.Player;
 import org.teambravo.pipergames.entity.Team;
 
 import java.net.URL;
@@ -20,9 +22,11 @@ import java.util.ResourceBundle;
 public class TeamTabController implements Initializable {
 
     @FXML
-    private TableColumn<Team, String> GameColumn;
+    private TableColumn<Team, String> Spel;
     @FXML
-    private TableColumn<Team, String> TeamColumn;
+    private TableColumn<Team, String> Lag;
+    @FXML
+    private TableColumn<Person, String> Spelare;
     @FXML
     private TableView<Team> userTable;
     // @FXML
@@ -38,13 +42,10 @@ public class TeamTabController implements Initializable {
         List<Team> teams = new TeamController().getAllTeams(true);
         ObservableList<Team> teamItems = FXCollections.observableList(teams);
 
+        Spel.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getGame().getName()));
+        Lag.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getName()));
+        //  Spelare.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getFirstName()));
 
-        // List<Game> games = new GameController().getAll();
-        // ObservableList<Game> gameItems = FXCollections.observableList(games);
-
-
-        GameColumn.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getName()));
-        TeamColumn.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getGame().getName()));
 
 
         userTable.setItems(teamItems);
