@@ -20,58 +20,58 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Label text="Förnamn" />
-                  <TextField />
+                  <TextField fx:id="firstName" />
                </children>
             </VBox>
             <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Label text="Efternamn" />
-                  <TextField />
+                  <TextField fx:id="lastName" />
                </children>
             </VBox>
             <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Label text="Smeknamn" />
-                  <TextField />
+                  <TextField fx:id="nickName" />
                </children>
             </VBox>
             <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Label text="Gatuadress" />
-                  <TextField />
+                  <TextField fx:id="address" />
                </children>
             </VBox>
             <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Label text="Postnummer" />
-                  <TextField />
+                  <TextField fx:id="postalCode" />
                </children>
             </VBox>
             <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Label text="Stad" />
-                  <TextField />
+                  <TextField fx:id="city" />
                </children>
             </VBox>
             <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Label text="Land" />
-                  <TextField />
+                  <TextField fx:id="country" />
                </children>
             </VBox>
             <VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label text="eMail" />
-                  <TextField />
+                  <Label text="Email" />
+                  <TextField fx:id="email" />
                </children>
             </VBox>
          </children>
       </VBox>
       <VBox alignment="BASELINE_CENTER" layoutX="500.0" prefHeight="131.0" prefWidth="84.0" spacing="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Lägg till" />
-            <Button mnemonicParsing="false" text="Ändra" />
-            <Button mnemonicParsing="false" text="Ta bort" />
+            <Button fx:id="addStaffButton" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Lägg till" />
+            <Button fx:id="editStaffButton" mnemonicParsing="false" onAction="#handleEditStaffDataButton" text="Ändra" />
+            <Button fx:id="deleteStaffButton" mnemonicParsing="false" text="Ta bort" />
          </children>
       </VBox>
    </children>
