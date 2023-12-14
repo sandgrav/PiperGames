@@ -135,6 +135,7 @@ public class SoloMatchTabController implements Initializable {
                 showAlert("Fel", "Ett fel uppstod vid uppdatering av Spelare 2.");
             }
         });
+        //Hej
     }
 
     private void showAlert(String title, String content) {
