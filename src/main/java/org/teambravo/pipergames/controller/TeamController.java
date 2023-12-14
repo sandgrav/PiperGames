@@ -2,10 +2,7 @@ package org.teambravo.pipergames.controller;
 
 import org.teambravo.pipergames.entity.Team;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.util.List;
 
 public class TeamController {
@@ -16,17 +13,17 @@ public class TeamController {
 
     //CREATE
 
-    public boolean saveTeam(Object teamClass) {
+    public boolean saveTeam(Team team) {
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
         try {
             transaction = entityManager.getTransaction();
             transaction.begin();
-            entityManager.persist(teamClass);
+            entityManager.persist(team);
             transaction.commit();
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -35,7 +32,6 @@ public class TeamController {
             entityManager.close();
         }
         return false;
-
     }
 
     //READ
@@ -68,24 +64,62 @@ public class TeamController {
         }
         return null;
     }
-    public boolean updateTeam(Team team){
+
+
+    public List<Team> getTeamByName(String teamName) {
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
+
         try {
             transaction = entityManager.getTransaction();
             transaction.begin();
-            entityManager.merge(team);
+
+            List<Team> teamResultList = entityManager
+                    .createQuery("FROM Team t WHERE t.name = :teamName", Team.class)
+                    .setParameter("teamName", teamName)
+                    .getResultList();
+
             transaction.commit();
-            return true;
-        } catch (Exception e){
-            if(transaction != null){
+
+            return teamResultList;
+        } catch (Exception e) {
+            if (transaction != null) {
                 transaction.rollback();
             }
             e.printStackTrace();
         } finally {
             entityManager.close();
         }
-        return false;
+        return null;
+    }
+
+    public boolean updateTeam(Team updatedTeam) {
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityTransaction transaction = null;
+
+        try {
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+
+            Team teamToUpdate = entityManager.find(Team.class, updatedTeam.getId());
+            if (teamToUpdate != null) {
+                teamToUpdate.setName(updatedTeam.getName()); // Update the name of the retrieved team
+                entityManager.merge(teamToUpdate);
+                transaction.commit();
+                return true;
+            }
+
+            transaction.rollback();
+            return false;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            entityManager.close();
+        }
     }
     public boolean deleteTeam(int teamId) {
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
@@ -112,6 +146,40 @@ public class TeamController {
             }
             e.printStackTrace();
             return false;
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    public boolean deleteTeamByName(String name) {
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityTransaction transaction = null;
+
+        try {
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+
+            TypedQuery<Team> query = entityManager.createQuery("SELECT t FROM Team t WHERE t.name = :name", Team.class);
+            query.setParameter("name", name);
+            Team teamToDelete = query.getSingleResult();
+
+            entityManager.remove(teamToDelete);
+            transaction.commit();
+            return true;
+
+        } catch (NoResultException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            return false;
+
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+            return false;
+
         } finally {
             entityManager.close();
         }

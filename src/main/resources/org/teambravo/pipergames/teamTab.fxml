@@ -5,14 +5,26 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.teambravo.pipergames.view.TeamTabController">
     <children>
-        <TableView fx:id="userTable" layoutX="38.0" layoutY="45.0" prefHeight="347.0" prefWidth="462.0">
+        <TableView fx:id="teamTable" layoutX="14.0" layoutY="42.0" prefHeight="347.0" prefWidth="185.0">
             <columns>
                 <TableColumn fx:id="Spel" prefWidth="75.0" text="Spel" />
                 <TableColumn fx:id="Lag" prefWidth="107.0" text="Lag" />
-                <TableColumn fx:id="Spelare" prefWidth="279.0" text="Spelare" />
             </columns>
         </TableView>
-        <TextField layoutX="38.0" layoutY="14.0" text="Lägg till spelare till lag:" />
+        <TextField layoutX="506.0" layoutY="216.0" prefHeight="26.0" prefWidth="80.0" text="Lägg till spelare till lag:" />
+      <TableView fx:id="playerTable" layoutX="199.0" layoutY="42.0" prefHeight="341.0" prefWidth="274.0">
+        <columns>
+          <TableColumn fx:id="firstNameCol" prefWidth="91.0" text="First Name" />
+            <TableColumn fx:id="lastNameCol" prefWidth="81.0" text="Last Name" />
+            <TableColumn fx:id="nickNameCol" prefWidth="98.0" text="Nickname" />
+        </columns>
+      </TableView>
+        <Button fx:id="addTeamButton" layoutX="499.0" layoutY="74.0" mnemonicParsing="false" onAction="#AddTeamButtonAction" text="Lägg till" />
+      <Button layoutX="506.0" layoutY="288.0" mnemonicParsing="false" text="Button" />
+      <Button layoutX="506.0" layoutY="327.0" mnemonicParsing="false" text="Button" />
+      <TextField fx:id="teamTextField" layoutX="480.0" layoutY="42.0" prefHeight="26.0" prefWidth="106.0" promptText="Ange lagnamn: " />
+      <Button layoutX="504.0" layoutY="112.0" mnemonicParsing="false" text="Ändra" />
+      <Button fx:id="deleteTeamByName" layoutX="501.0" layoutY="146.0" mnemonicParsing="false" text="Ta bort" onAction="#DeleteTeamButton"/>
     </children>
 
 </AnchorPane>
