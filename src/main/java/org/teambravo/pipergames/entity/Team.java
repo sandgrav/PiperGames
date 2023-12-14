@@ -27,6 +27,8 @@ public class Team {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Player> players = new ArrayList<>();
 
+
+
     public Team() {
 
     }
@@ -60,6 +62,8 @@ public class Team {
     public void setId(int id) {
         this.id = id;
     }
+
+
 
     public void setName(String name) {
         this.name = name;
