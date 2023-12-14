@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.HBox?>
@@ -21,8 +20,7 @@
                </padding>
                <children>
                   <Button fx:id="showAllMatches" mnemonicParsing="false" onAction="#handleShowAllMatchesButtonAction" text="Visa alla Matcher" />
-                  <Label prefHeight="27.0" prefWidth="235.0" text="Ange matchid För matchen du vill ta bort" />
-                  <Button fx:id="deleteMatch" mnemonicParsing="false" onAction="#handleDeleteMatchButton" text="Tabort Match" />
+                  <Button fx:id="deleteMatch" mnemonicParsing="false" onAction="#handleDeleteMatchButton" text="Ta bort markerad Match" />
                </children>
                <VBox.margin>
                   <Insets />

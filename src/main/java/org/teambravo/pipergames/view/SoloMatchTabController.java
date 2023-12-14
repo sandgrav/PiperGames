@@ -50,39 +50,21 @@ public class SoloMatchTabController implements Initializable {
     @FXML
     private TableColumn<Player, String> nickNameCol;
     @FXML
-    private TextField matchIdTextField;
+    private TextField textFieldDeleteMatch;
 
+    int enteredMatchId;
 
 
     @FXML
-    private void handleDeleteMatchButton() {
-        String matchIdString = matchIdTextField.getText();
-
-        try {
-            int matchId = Integer.parseInt(matchIdString);
-            MatchSolo matchToDelete = matchSoloController.getMatchById(matchId).orElse(null);
-
-            if (matchToDelete != null) {
-                // Ta bort matchen från databasen och tabellen
-                matchSoloController.deleteMatchById(matchId);
-                matchTable.getItems().remove(matchToDelete);
-
-                showAlert("Match borttagen", "Match med ID " + matchId + " har tagits bort.");
-            } else {
-                showAlert("Ingen match med det Match-ID", "Match med ID " + matchId + " hittades ej.");
-            }
-        } catch (NumberFormatException e) {
-            showAlert("Felaktigt värde", "Vänligen ange ett Match ID.");
-        }
+    private void handleDeleteMatchButton(ActionEvent event) {
+    int selectedMatchId = matchTable.getSelectionModel().getSelectedIndex();
+    if (selectedMatchId >= 0){
+        MatchSolo selectedMatch = matchTable.getItems().get(selectedMatchId);
+        matchSoloController.deleteMatchById(selectedMatch.getId());
+        matchTable.getItems().remove(selectedMatchId);
+    } else showAlert("Inget match vald", "Vänligen välj en match att ta bort.");
     }
 
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
 
     @FXML
     protected void handleShowAllMatchesButtonAction (ActionEvent e){
@@ -97,6 +79,13 @@ public class SoloMatchTabController implements Initializable {
         matchTable.setItems(items);
         }
 
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 
 
     @Override
@@ -105,3 +94,32 @@ public class SoloMatchTabController implements Initializable {
 
     }
 }
+/*
+    enteredMatchId = Integer.parseInt(textFieldDeleteMatch.getText());
+            System.out.println(enteredMatchId);
+
+
+        try {
+        MatchSolo matchToDelete = matchSoloController.getMatchById(enteredMatchId).orElse(null);
+
+        if (matchToDelete != null) {
+
+            matchSoloController.deleteMatchById(enteredMatchId);
+            matchTable.getItems().remove(enteredMatchId);
+
+            showAlert("Match borttagen", "Match med ID " + enteredMatchId + " har tagits bort.");
+        } else {
+            showAlert("Ingen match med det Match-ID", "Match med ID " + enteredMatchId + " hittades ej.");
+        }
+    } catch (NumberFormatException e) {
+        showAlert("Felaktigt värde", "Vänligen ange ett Match ID.");
+    }
+}
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }*/
