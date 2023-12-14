@@ -32,9 +32,13 @@ public class Login implements Initializable {
     protected void handleLoginButtonAction(ActionEvent e) throws IOException {
         Staff staff = userTable.getSelectionModel().getSelectedItem();
         if (staff != null) {
-//            staff.login ??
-            //SceneClass.setRoot("viewAll");
-             SceneClass.setRoot("mainWindow");
+
+            StaffController staffController = new StaffController();
+            staff.setLoggedIn(true);
+            staffController.update(staff);
+
+            StaffTabController.setCurrentStaff(staff);
+            SceneClass.setRoot("mainWindow");
         }
     }
 
