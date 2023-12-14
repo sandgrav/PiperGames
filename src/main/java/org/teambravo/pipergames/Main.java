@@ -11,9 +11,6 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-//        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
-//        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Personal-scene.fxml"));
-//        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
         Scene scene = SceneClass.load(stage);
         stage.setTitle("Piper Games");
         stage.setScene(scene);
@@ -22,8 +19,6 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         TeamController teamController = new TeamController();
-//        Menu menu = new Menu();
-//        menu.showMenu(teamClassController);
         launch();
     }
 }
