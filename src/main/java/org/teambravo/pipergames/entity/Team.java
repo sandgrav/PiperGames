@@ -24,7 +24,7 @@ public class Team {
     @JoinColumn(name = "game_id")
     private Game game;
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Player> players = new ArrayList<>();
 
     public Team() {
