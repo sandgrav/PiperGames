@@ -8,12 +8,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.converter.IntegerStringConverter;
+import javafx.util.converter.LocalDateStringConverter;
 import org.teambravo.pipergames.controller.MatchSoloController;
 import org.teambravo.pipergames.controller.MatchTeamController;
 import org.teambravo.pipergames.entity.MatchSolo;
 import org.teambravo.pipergames.entity.Player;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -78,6 +84,58 @@ public class SoloMatchTabController implements Initializable {
 
         matchTable.setItems(items);
         }
+    @FXML
+    private void handleUpdateMatchButton(ActionEvent event) {
+        matchTable.setEditable(true);
+        dateCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        dateCol.setOnEditCommit(editEvent -> {
+            MatchSolo editedItem = editEvent.getRowValue();
+            try {
+
+                LocalDate newDate = LocalDate.parse(editEvent.getNewValue(), DateTimeFormatter.ISO_LOCAL_DATE);
+                editedItem.setDate(newDate.atStartOfDay());
+
+                // Uppdatera databasen
+                matchSoloController.updateMatchSoloPlayer(editedItem);
+
+                showAlert("Match Uppdaterad", "Datum uppdaterat!");
+            } catch (DateTimeParseException e) {
+                showAlert("Fel", "Ogiltigt datumformat. Använd formatet YYYY-MM-DD");
+            }
+        });
+        player1TableColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        player1TableColumn.setOnEditCommit(editEvent -> {
+            Player editedItem = editEvent.getRowValue().getPlayer1();
+            try {
+                String newPlayer1Value = editEvent.getNewValue();
+                // Uppdatera spelaren i databasen
+                editedItem.getPerson().setNickName(newPlayer1Value);
+
+                // Uppdatera databasen
+                matchSoloController.updateMatchSoloPlayer(matchTable.getSelectionModel().getSelectedItem());
+
+                showAlert("Match Uppdaterad", "Spelare 1 uppdaterad!");
+            } catch (Exception e) {
+                showAlert("Fel", "Ett fel uppstod vid uppdatering av Spelare 1.");
+            }
+        });
+        player2TableCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        player2TableCol.setOnEditCommit(editEvent -> {
+            Player editedItem = editEvent.getRowValue().getPlayer2();
+            try {
+                String newPlayer2Value = editEvent.getNewValue();
+                // Uppdatera spelaren i databasen eller gör vad som behövs
+                editedItem.getPerson().setNickName(newPlayer2Value);
+
+                // Uppdatera databasen
+                matchSoloController.updateMatchSoloPlayer(matchTable.getSelectionModel().getSelectedItem());
+
+                showAlert("Match Uppdaterad", "Spelare 2 uppdaterad!");
+            } catch (Exception e) {
+                showAlert("Fel", "Ett fel uppstod vid uppdatering av Spelare 2.");
+            }
+        });
+    }
 
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -90,36 +148,6 @@ public class SoloMatchTabController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //deleteMatchButton.setOnAction(event -> handleDeleteMatchButton());
 
     }
 }
-/*
-    enteredMatchId = Integer.parseInt(textFieldDeleteMatch.getText());
-            System.out.println(enteredMatchId);
-
-
-        try {
-        MatchSolo matchToDelete = matchSoloController.getMatchById(enteredMatchId).orElse(null);
-
-        if (matchToDelete != null) {
-
-            matchSoloController.deleteMatchById(enteredMatchId);
-            matchTable.getItems().remove(enteredMatchId);
-
-            showAlert("Match borttagen", "Match med ID " + enteredMatchId + " har tagits bort.");
-        } else {
-            showAlert("Ingen match med det Match-ID", "Match med ID " + enteredMatchId + " hittades ej.");
-        }
-    } catch (NumberFormatException e) {
-        showAlert("Felaktigt värde", "Vänligen ange ett Match ID.");
-    }
-}
-
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }*/

@@ -20,6 +20,7 @@
                </padding>
                <children>
                   <Button fx:id="showAllMatches" mnemonicParsing="false" onAction="#handleShowAllMatchesButtonAction" text="Visa alla Matcher" />
+                  <Button fx:id="updateMatchButton" mnemonicParsing="false" onAction="#handleUpdateMatchButton" text="Ändra Match" />
                   <Button fx:id="deleteMatch" mnemonicParsing="false" onAction="#handleDeleteMatchButton" text="Ta bort markerad Match" />
                </children>
                <VBox.margin>
