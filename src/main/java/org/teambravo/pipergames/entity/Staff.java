@@ -14,7 +14,7 @@ public class Staff {
 
 //    @ManyToOne
 //    @JoinColumn(name = "person_id")
-    @OneToOne
+    @OneToOne(orphanRemoval = true)
     @MapsId
     private Person person;
 

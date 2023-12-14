@@ -10,10 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.teambravo.pipergames.controller.PlayerController;
@@ -26,6 +23,7 @@ import org.teambravo.pipergames.entity.Staff;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class StaffTabController implements Initializable {
@@ -34,6 +32,8 @@ public class StaffTabController implements Initializable {
     private Button logoutButton;
     @FXML
     private Button editStaffButton;
+    @FXML
+    private Button deleteStaffButton;
     @FXML
     private TableView<Staff> staffTableView;
     @FXML
@@ -63,8 +63,6 @@ public class StaffTabController implements Initializable {
     private static Staff currentStaff;
     @FXML
     private void handleLogoutButton(ActionEvent event) throws IOException {
-        System.out.println("knappen är tryckt");
-        System.out.println("inloggad användare " + currentStaff.getId());
         try {
             if (currentStaff != null) {
                 currentStaff.setLoggedIn(null);
@@ -80,10 +78,21 @@ public class StaffTabController implements Initializable {
     }
 
     @FXML
-    private void handleEditStaffDataButton(ActionEvent event) {
+    private void handleEditStaffButton(ActionEvent event) {
         Staff selectedStaff = staffTableView.getSelectionModel().getSelectedItem();
         if (selectedStaff != null) {
             updateStaffDetails(selectedStaff);
+        }
+    }
+
+    @FXML
+    private void handleDeleteStaffButton(ActionEvent event) {
+        Staff selectedStaff = staffTableView.getSelectionModel().getSelectedItem();
+        if (selectedStaff != null) {
+            boolean confirmed = showConfirmationDialog("Delete Staff", "Are you sure you want to delete this staff member?");
+            if (confirmed) {
+                deleteStaff(selectedStaff);
+            }
         }
     }
 
@@ -99,7 +108,7 @@ public class StaffTabController implements Initializable {
             if (newSelection != null) {
                 bindStaffToFields(newSelection);
             }
-        });
+        } );
     }
 
     private void updateStaffDetails(Staff staff) {
@@ -120,6 +129,25 @@ public class StaffTabController implements Initializable {
             loadStaffData(); // Refresh TableView
         } else {
             System.out.println("Kunde ej ändra uppgift");
+        }
+    }
+
+    private boolean showConfirmationDialog(String title, String message) {
+        // Create and display a confirmation dialog
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setContentText(message);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == ButtonType.OK;
+    }
+
+    private void deleteStaff(Staff staff) {
+        StaffController staffController = new StaffController();
+        if (staffController.deleteStaff(staff.getId())) {
+            loadStaffData(); // Refresh TableView
+        } else {
+            // Handle delete failure
         }
     }
 
@@ -144,3 +172,4 @@ public class StaffTabController implements Initializable {
         StaffTabController.currentStaff = currentStaff;
     }
 }
+
