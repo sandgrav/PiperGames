@@ -1,6 +1,7 @@
 package org.teambravo.pipergames.controller;
 
 import org.teambravo.pipergames.entity.Player;
+import org.teambravo.pipergames.entity.Staff;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -21,6 +22,8 @@ public class PlayerController {
         try {
             transaction = entityManager.getTransaction();
             transaction.begin();
+            entityManager.persist(player.getPerson());
+            player.setPlayerId(player.getPerson().getId());
             entityManager.persist(player);
             transaction.commit();
             return true;
@@ -80,6 +83,28 @@ public class PlayerController {
             entityManager.close();
         }
         return null;
+    }
+
+    public boolean update(Player player){
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityTransaction transaction = null;
+        try {
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+            entityManager.merge(player.getPerson());
+            player.setPlayerId(player.getPerson().getId());
+            entityManager.merge(player);
+            transaction.commit();
+            return true;
+        } catch (Exception e){
+            if(transaction != null){
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            entityManager.close();
+        }
+        return false;
     }
 
     public boolean deletePlayerById(int playerId) {

@@ -7,12 +7,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.util.Callback;
 import org.teambravo.pipergames.controller.PlayerController;
 import org.teambravo.pipergames.controller.TeamController;
+import org.teambravo.pipergames.entity.Game;
+import org.teambravo.pipergames.entity.Person;
 import org.teambravo.pipergames.entity.Player;
 import org.teambravo.pipergames.entity.Team;
 
@@ -41,6 +41,44 @@ public class PlayerTabController implements Initializable {
     private TextField lastNameText;
     @FXML
     private TextField nickNameText;
+    @FXML
+    private TextField streetAdressText;
+    @FXML
+    private TextField zipText;
+    @FXML
+    private TextField cityText;
+    @FXML
+    private TextField countryText;
+    @FXML
+    private TextField eMailText;
+    @FXML
+    private TextField teamText;
+/*
+    @FXML
+    private ComboBox<Game> gameCmb;
+
+    Callback<ListView<Game>, ListCell<Game>> cellFactory = new Callback<ListView<Game>, ListCell<Game>>() {
+
+        @Override
+        public ListCell<Game> call(ListView<Game> l) {
+            return new ListCell<Game>() {
+                @Override
+                protected void updateItem(Game item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setGraphic(null);
+                    } else {
+                        setText(item.getName());
+                    }
+                }
+            };
+        }
+    };
+
+    // Just set the button cell here:
+    gameCmb.setButtonCell(cellFactory.call(null));
+    gameCmb.setCellFactory(cellFactory);
+*/
 
     @FXML
     protected void handleAllPlayersButtonAction(ActionEvent e) {
@@ -60,8 +98,56 @@ public class PlayerTabController implements Initializable {
         teamTable.setItems(items);
     }
 
+    @FXML
+    protected void HandleAddPlayerButtonAction(ActionEvent e) {
+        if (!(firstNameText.getText().isEmpty() || lastNameText.getText().isEmpty() || nickNameText.getText().isEmpty())) {
+            Player player = new Player();
+            player.setPerson(new Person());
+            PlayerController playerController = new PlayerController();
+            player.getPerson().setFirstName(firstNameText.getText());
+            player.getPerson().setLastName(lastNameText.getText());
+            player.getPerson().setNickName(nickNameText.getText());
+            player.getPerson().setAddress(streetAdressText.getText());
+            player.getPerson().setPostalCode(zipText.getText());
+            player.getPerson().setCity(cityText.getText());
+            player.getPerson().setCountry(countryText.getText());
+            player.getPerson().setEmail(eMailText.getText());
+//            player.getTeam().getName()teamText.setText();
+            playerController.savePlayer(player);
+        }
+    }
+
+    @FXML
+    protected void HandleSavePlayerButtonAction(ActionEvent e) {
+        Player player = playerTable.getSelectionModel().getSelectedItem();
+        if (player != null) {
+            PlayerController playerController = new PlayerController();
+            player.getPerson().setFirstName(firstNameText.getText());
+            player.getPerson().setLastName(lastNameText.getText());
+            player.getPerson().setNickName(nickNameText.getText());
+            player.getPerson().setAddress(streetAdressText.getText());
+            player.getPerson().setPostalCode(zipText.getText());
+            player.getPerson().setCity(cityText.getText());
+            player.getPerson().setCountry(countryText.getText());
+            player.getPerson().setEmail(eMailText.getText());
+//            player.getTeam().getName()teamText.setText();
+            playerController.update(player);
+        }
+    }
+
+    @FXML
+    protected void HandleDeletePlayerButtonAction(ActionEvent e) {
+
+    }
+
+    @FXML
+    protected void HandleLogoutButtonAction(ActionEvent e) {
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        teamTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         ObservableList<Team> teamSelectedItems = teamTable.getSelectionModel().getSelectedItems();
         teamSelectedItems.addListener(
                 new ListChangeListener<Team>() {
@@ -91,6 +177,12 @@ public class PlayerTabController implements Initializable {
                             firstNameText.setText(player.getPerson().getFirstName());
                             lastNameText.setText(player.getPerson().getLastName());
                             nickNameText.setText(player.getPerson().getNickName());
+                            streetAdressText.setText(player.getPerson().getAddress());
+                            zipText.setText(player.getPerson().getPostalCode());
+                            cityText.setText(player.getPerson().getCity());
+                            countryText.setText(player.getPerson().getCountry());
+                            eMailText.setText(player.getPerson().getEmail());
+//                            teamText.setText(player.getTeam().getName());
                         }
                     }
                 }
