@@ -13,12 +13,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import org.teambravo.pipergames.controller.PlayerController;
 import org.teambravo.pipergames.controller.StaffController;
 import org.teambravo.pipergames.controller.PersonController;
 import org.teambravo.pipergames.entity.Person;
-import org.teambravo.pipergames.entity.Player;
 import org.teambravo.pipergames.entity.Staff;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -34,6 +33,8 @@ public class StaffTabController implements Initializable {
     private Button editStaffButton;
     @FXML
     private Button deleteStaffButton;
+    @FXML
+    private Button addStaffButton;
     @FXML
     private TableView<Staff> staffTableView;
     @FXML
@@ -74,6 +75,25 @@ public class StaffTabController implements Initializable {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @FXML
+    protected void handleAddStaffButton(ActionEvent e) {
+        if (!(firstName.getText().isEmpty() || lastName.getText().isEmpty() || nickName.getText().isEmpty())) {
+            Staff staff = new Staff();
+            staff.setPerson(new Person());
+            StaffController staffController = new StaffController();
+            staff.getPerson().setFirstName(firstName.getText());
+            staff.getPerson().setLastName(lastName.getText());
+            staff.getPerson().setNickName(nickName.getText());
+            staff.getPerson().setAddress(address.getText());
+            staff.getPerson().setPostalCode(postalCode.getText());
+            staff.getPerson().setCity(city.getText());
+            staff.getPerson().setCountry(country.getText());
+            staff.getPerson().setEmail(email.getText());
+            staffController.save(staff);
+            loadStaffData();
         }
     }
 
