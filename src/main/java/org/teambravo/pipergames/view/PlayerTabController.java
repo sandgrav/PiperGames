@@ -18,6 +18,7 @@ import org.teambravo.pipergames.entity.Team;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class PlayerTabController implements Initializable {
@@ -137,7 +138,17 @@ public class PlayerTabController implements Initializable {
 
     @FXML
     protected void HandleDeletePlayerButtonAction(ActionEvent e) {
-
+        Player player = playerTable.getSelectionModel().getSelectedItem();
+        if (player != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this player?");
+            PlayerController playerController = new PlayerController();
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                if (playerController.deletePlayer(player)) {
+                    playerTable.getItems().remove(player);
+                }
+            }
+        }
     }
 
     @FXML
