@@ -38,20 +38,22 @@ public class StaffTabController implements Initializable {
     private TableColumn<Staff, String> nickNameColumn;
     @FXML
     private TableColumn<Staff, String> loggedInColumn;
-    private Staff currentStaff;
+    private static Staff currentStaff;
     @FXML
     private void handleLogoutButton(ActionEvent event) throws IOException {
-        if (currentStaff != null) {
-            currentStaff.setLoggedIn(false);
-            StaffController staffController = new StaffController();
-            staffController.update(currentStaff);
+        System.out.println("knappen är tryckt");
+        System.out.println("inloggad användare " + currentStaff.getId());
+        try {
+            if (currentStaff != null) {
+                currentStaff.setLoggedIn(null);
+                StaffController staffController = new StaffController();
+                staffController.update(currentStaff);
+                System.out.println("loggar ut användare " + currentStaff.getId());
 
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/teambravo/pipergames/login.fxml"));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(fxmlLoader.load());
-            stage.setScene(scene);
-            stage.setTitle("Piper Games");
-            stage.setResizable(false);
+                SceneClass.setRoot("login");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -70,6 +72,14 @@ public class StaffTabController implements Initializable {
         ObservableList<Staff> staffData = FXCollections.observableArrayList(staffList);
         staffTableView.setItems(staffData);
 
+    }
+
+    public static Staff getCurrentStaff() {
+        return currentStaff;
+    }
+
+    public static void setCurrentStaff(Staff currentStaff) {
+        StaffTabController.currentStaff = currentStaff;
     }
 }
 

@@ -54,7 +54,7 @@ public class Staff {
         return Boolean.TRUE.equals((loggedIn));
     }
 
-    public void setLoggedIn(boolean loggedIn) {
+    public void setLoggedIn(Boolean loggedIn) {
         this.loggedIn = loggedIn;
     }
 

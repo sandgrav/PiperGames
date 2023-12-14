@@ -35,6 +35,8 @@ public class Login implements Initializable {
             StaffController staffController = new StaffController();
             staff.setLoggedIn(true);
             staffController.update(staff);
+
+            StaffTabController.setCurrentStaff(staff);
             SceneClass.setRoot("mainWindow");
         }
     }
