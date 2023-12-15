@@ -12,11 +12,11 @@ public class MatchSolo {
     @Column(name = "solo_match_id")
     private int id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "player1_id")   //, referencedColumnName = "player_id")
     private Player player1;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "player2_id")   //, referencedColumnName = "player_id")
     private Player player2;
 

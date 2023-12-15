@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.util.Callback;
+import org.teambravo.pipergames.controller.GameController;
 import org.teambravo.pipergames.controller.PlayerController;
 import org.teambravo.pipergames.controller.TeamController;
 import org.teambravo.pipergames.entity.Game;
@@ -18,6 +19,7 @@ import org.teambravo.pipergames.entity.Team;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class PlayerTabController implements Initializable {
@@ -53,32 +55,10 @@ public class PlayerTabController implements Initializable {
     private TextField eMailText;
     @FXML
     private TextField teamText;
-/*
     @FXML
     private ComboBox<Game> gameCmb;
-
-    Callback<ListView<Game>, ListCell<Game>> cellFactory = new Callback<ListView<Game>, ListCell<Game>>() {
-
-        @Override
-        public ListCell<Game> call(ListView<Game> l) {
-            return new ListCell<Game>() {
-                @Override
-                protected void updateItem(Game item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (item == null || empty) {
-                        setGraphic(null);
-                    } else {
-                        setText(item.getName());
-                    }
-                }
-            };
-        }
-    };
-
-    // Just set the button cell here:
-    gameCmb.setButtonCell(cellFactory.call(null));
-    gameCmb.setCellFactory(cellFactory);
-*/
+    @FXML
+    private ComboBox<Team> teamCmb;
 
     @FXML
     protected void handleAllPlayersButtonAction(ActionEvent e) {
@@ -99,6 +79,16 @@ public class PlayerTabController implements Initializable {
     }
 
     @FXML
+    protected void handleGameSelectedAction(ActionEvent e) {
+
+    }
+
+    @FXML
+    protected void handleTeamSelectedAction(ActionEvent e) {
+
+    }
+
+    @FXML
     protected void HandleAddPlayerButtonAction(ActionEvent e) {
         if (!(firstNameText.getText().isEmpty() || lastNameText.getText().isEmpty() || nickNameText.getText().isEmpty())) {
             Player player = new Player();
@@ -112,7 +102,8 @@ public class PlayerTabController implements Initializable {
             player.getPerson().setCity(cityText.getText());
             player.getPerson().setCountry(countryText.getText());
             player.getPerson().setEmail(eMailText.getText());
-//            player.getTeam().getName()teamText.setText();
+            player.setGame(gameCmb.getSelectionModel().getSelectedItem());
+            player.setTeam(teamCmb.getSelectionModel().getSelectedItem());
             playerController.savePlayer(player);
         }
     }
@@ -130,14 +121,28 @@ public class PlayerTabController implements Initializable {
             player.getPerson().setCity(cityText.getText());
             player.getPerson().setCountry(countryText.getText());
             player.getPerson().setEmail(eMailText.getText());
-//            player.getTeam().getName()teamText.setText();
+            player.setGame(gameCmb.getSelectionModel().getSelectedItem());
+            player.setTeam(teamCmb.getSelectionModel().getSelectedItem());
             playerController.update(player);
         }
     }
 
     @FXML
     protected void HandleDeletePlayerButtonAction(ActionEvent e) {
-
+        Player player = playerTable.getSelectionModel().getSelectedItem();
+        if (player != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Ta bort");
+            alert.setHeaderText("");
+            alert.setContentText("Är du säker på att du vill ta bort valde spelar?");
+            PlayerController playerController = new PlayerController();
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                if (playerController.deletePlayer(player)) {
+                    playerTable.getItems().remove(player);
+                }
+            }
+        }
     }
 
     @FXML
@@ -182,10 +187,70 @@ public class PlayerTabController implements Initializable {
                             cityText.setText(player.getPerson().getCity());
                             countryText.setText(player.getPerson().getCountry());
                             eMailText.setText(player.getPerson().getEmail());
-//                            teamText.setText(player.getTeam().getName());
+                            gameCmb.getSelectionModel().select(player.getGame());
+                            teamCmb.getSelectionModel().select(player.getTeam());
+                        } else {
+                            firstNameText.setText("");
+                            lastNameText.setText("");
+                            nickNameText.setText("");
+                            streetAdressText.setText("");
+                            zipText.setText("");
+                            cityText.setText("");
+                            countryText.setText("");
+                            eMailText.setText("");
+                            gameCmb.getSelectionModel().clearSelection();
+                            teamCmb.getSelectionModel().clearSelection();
+//                            teamCmb.setButtonCell(teamCellFactory.call(null));
                         }
                     }
                 }
         );
+
+        Callback<ListView<Game>, ListCell<Game>> gameCellFactory = new Callback<ListView<Game>, ListCell<Game>>() {
+            @Override
+            public ListCell<Game> call(ListView<Game> l) {
+                return new ListCell<Game>() {
+                    @Override
+                    protected void updateItem(Game item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item == null || empty) {
+                            setGraphic(null);
+                        } else {
+                            setText(item.getName());
+                        }
+                    }
+                };
+            }
+        };
+        List<Game> games = new GameController().getAll();
+        ObservableList<Game> gameItems = FXCollections.observableList(games);
+        gameCmb.setItems(gameItems);
+        // Just set the button cell here:
+        gameCmb.setButtonCell(gameCellFactory.call(null));
+        gameCmb.setCellFactory(gameCellFactory);
+
+        Callback<ListView<Team>, ListCell<Team>> teamCellFactory = new Callback<ListView<Team>, ListCell<Team>>() {
+            @Override
+            public ListCell<Team> call(ListView<Team> l) {
+                return new ListCell<Team>() {
+                    @Override
+                    protected void updateItem(Team item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item == null || empty) {
+                            setText(null);
+                            setGraphic(null);
+                        } else {
+                            setText(item.getName());
+                        }
+                    }
+                };
+            }
+        };
+        List<Team> teams = new TeamController().getAllTeams(false);
+        ObservableList<Team> teamItems = FXCollections.observableList(teams);
+        teamCmb.setItems(teamItems);
+        // Just set the button cell here:
+        teamCmb.setButtonCell(teamCellFactory.call(null));
+        teamCmb.setCellFactory(teamCellFactory);
     }
 }
