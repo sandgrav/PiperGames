@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.teambravo.pipergames.view.SoloMatchTabController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.teambravo.pipergames.view.SoloMatchTabController">
    <children>
       <VBox minWidth="-Infinity" prefHeight="486.0" prefWidth="500.0" HBox.hgrow="ALWAYS">
          <padding>

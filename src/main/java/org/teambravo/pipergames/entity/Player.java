@@ -9,7 +9,7 @@ public class Player {
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "player_id")
-    private Integer playerId;
+    private int playerId;
 
 //    @ManyToOne
 //    @JoinColumn(name = "person_id")
