@@ -150,5 +150,8 @@ select @StaffKey4 := @@IDENTITY;
 
 
 -- Insert of data in SoloMatches
-insert into solo_matches(date, player1_id, player2_id, game_name) values(DATE(20000101), @PlayerKey17, @PlayerKey18, @GameKey3);
-insert into solo_matches(date, player1_id, player2_id, game_name) values(DATE(20231231), @PlayerKey19, @PlayerKey20, @GameKey3);
+insert into solo_matches(date, player1_id, player2_id) values(DATE(20000101), @PersonKey17, @PersonKey18);
+insert into solo_matches(date, player1_id, player2_id) values(DATE(20231231), @PersonKey19, @PersonKey20);
+
+insert into solo_matches(date, player1_id, player2_id) values(DATE(20000101), @PersonKey17, @PersonKey19);
+insert into solo_matches(date, player1_id, player2_id) values(DATE(20231231), @PersonKey18, @PersonKey20);
