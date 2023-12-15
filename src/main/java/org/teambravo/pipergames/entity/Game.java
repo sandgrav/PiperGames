@@ -19,7 +19,7 @@ public class Game {
     @Column(name = "game_name")
     private String name;
 
-    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "game", orphanRemoval = true)
     private List<Player> players = new ArrayList<>();
 
     public Game() {}

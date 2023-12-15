@@ -21,10 +21,10 @@ public class Player {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    @OneToMany(mappedBy = "player1", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "player1", orphanRemoval = true)
     private List<MatchSolo> matchesAsPlayer1 = new ArrayList<>();
 
-    @OneToMany(mappedBy = "player2", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "player2", orphanRemoval = true)
     private List<MatchSolo> matchesAsPlayer2 = new ArrayList<>();
 
     @ManyToOne

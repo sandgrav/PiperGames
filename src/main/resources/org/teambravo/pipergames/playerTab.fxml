@@ -93,19 +93,18 @@
                         <TextField fx:id="eMailText" />
                      </children>
                   </VBox>
-                  <HBox spacing="10.0">
+                  <HBox spacing="10.0" VBox.vgrow="ALWAYS">
                      <children>
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
                               <Label text="Spel" />
-                              <TextField fx:id="gameText" />
-                              <ComboBox fx:id="gameCmb" VBox.vgrow="ALWAYS" />
+                              <ComboBox fx:id="gameCmb" onAction="#handleGameSelectedAction" prefWidth="228.0" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
                               <Label text="Lag" />
-                              <TextField fx:id="teamText1" />
+                              <ComboBox fx:id="teamCmb" onAction="#handleTeamSelectedAction" prefWidth="228.0" />
                            </children>
                         </VBox>
                      </children>
