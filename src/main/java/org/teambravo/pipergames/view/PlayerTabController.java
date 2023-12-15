@@ -145,10 +145,40 @@ public class PlayerTabController implements Initializable {
         }
     }
 
-    @FXML
-    protected void HandleLogoutButtonAction(ActionEvent e) {
+    Callback<ListView<Game>, ListCell<Game>> gameCellFactory = new Callback<ListView<Game>, ListCell<Game>>() {
+        @Override
+        public ListCell<Game> call(ListView<Game> l) {
+            return new ListCell<Game>() {
+                @Override
+                protected void updateItem(Game item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setGraphic(null);
+                    } else {
+                        setText(item.getName());
+                    }
+                }
+            };
+        }
+    };
 
-    }
+    Callback<ListView<Team>, ListCell<Team>> teamCellFactory = new Callback<ListView<Team>, ListCell<Team>>() {
+        @Override
+        public ListCell<Team> call(ListView<Team> l) {
+            return new ListCell<Team>() {
+                @Override
+                protected void updateItem(Team item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setText(null);
+                        setGraphic(null);
+                    } else {
+                        setText(item.getName());
+                    }
+                }
+            };
+        }
+    };
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -200,28 +230,12 @@ public class PlayerTabController implements Initializable {
                             eMailText.setText("");
                             gameCmb.getSelectionModel().clearSelection();
                             teamCmb.getSelectionModel().clearSelection();
-//                            teamCmb.setButtonCell(teamCellFactory.call(null));
+                            teamCmb.setButtonCell(teamCellFactory.call(null));
                         }
                     }
                 }
         );
 
-        Callback<ListView<Game>, ListCell<Game>> gameCellFactory = new Callback<ListView<Game>, ListCell<Game>>() {
-            @Override
-            public ListCell<Game> call(ListView<Game> l) {
-                return new ListCell<Game>() {
-                    @Override
-                    protected void updateItem(Game item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item == null || empty) {
-                            setGraphic(null);
-                        } else {
-                            setText(item.getName());
-                        }
-                    }
-                };
-            }
-        };
         List<Game> games = new GameController().getAll();
         ObservableList<Game> gameItems = FXCollections.observableList(games);
         gameCmb.setItems(gameItems);
@@ -229,23 +243,6 @@ public class PlayerTabController implements Initializable {
         gameCmb.setButtonCell(gameCellFactory.call(null));
         gameCmb.setCellFactory(gameCellFactory);
 
-        Callback<ListView<Team>, ListCell<Team>> teamCellFactory = new Callback<ListView<Team>, ListCell<Team>>() {
-            @Override
-            public ListCell<Team> call(ListView<Team> l) {
-                return new ListCell<Team>() {
-                    @Override
-                    protected void updateItem(Team item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item == null || empty) {
-                            setText(null);
-                            setGraphic(null);
-                        } else {
-                            setText(item.getName());
-                        }
-                    }
-                };
-            }
-        };
         List<Team> teams = new TeamController().getAllTeams(false);
         ObservableList<Team> teamItems = FXCollections.observableList(teams);
         teamCmb.setItems(teamItems);
