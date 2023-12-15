@@ -2,20 +2,17 @@ package org.teambravo.pipergames.view;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.converter.IntegerStringConverter;
-import javafx.util.converter.LocalDateStringConverter;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
 import org.teambravo.pipergames.controller.MatchSoloController;
-import org.teambravo.pipergames.controller.MatchTeamController;
 import org.teambravo.pipergames.controller.PlayerController;
 import org.teambravo.pipergames.entity.MatchSolo;
-import org.teambravo.pipergames.entity.Person;
 import org.teambravo.pipergames.entity.Player;
 
 import java.net.URL;
@@ -62,6 +59,11 @@ public class SoloMatchTabController implements Initializable {
     @FXML
     private TableColumn<Player, String> nickNameCol;
     @FXML
+    private ChoiceBox<Player> player1AddToMatchToCB;
+    @FXML
+    private ChoiceBox<Player> player2AddToMatchToCB;
+
+    @FXML
     private TextField textFieldDeleteMatch;
     @FXML
     private TextField player1AddToMatchText;
@@ -72,23 +74,18 @@ public class SoloMatchTabController implements Initializable {
     @FXML
     private TextField dateAddSoloMatchText;
 
-    int enteredMatchId;
-
-
     @FXML
     private void handleDeleteMatchButton(ActionEvent event) {
-    int selectedMatchId = matchTable.getSelectionModel().getSelectedIndex();
-    if (selectedMatchId >= 0){
-        MatchSolo selectedMatch = matchTable.getItems().get(selectedMatchId);
-        matchSoloController.deleteMatchById(selectedMatch.getId());
-        matchTable.getItems().remove(selectedMatchId);
-    } else showAlert("Inget match vald", "Vänligen välj en match att ta bort.");
+        int selectedMatchId = matchTable.getSelectionModel().getSelectedIndex();
+        if (selectedMatchId >= 0) {
+            MatchSolo selectedMatch = matchTable.getItems().get(selectedMatchId);
+            matchSoloController.deleteMatchById(selectedMatch.getId());
+            matchTable.getItems().remove(selectedMatchId);
+        } else showAlert("Inget match vald", "Vänligen välj en match att ta bort.");
     }
-    @FXML
-    protected void handleAddSoloMatchButton (ActionEvent e){}
 
     @FXML
-    protected void handleShowAllMatchesButtonAction (ActionEvent e){
+    protected void handleShowAllMatchesButtonAction(ActionEvent e) {
         List<MatchSolo> matches = matchSoloController.getAllMatches();
         ObservableList<MatchSolo> items = FXCollections.observableList(matches);
 
@@ -98,7 +95,8 @@ public class SoloMatchTabController implements Initializable {
         player2TableCol.setCellValueFactory(tf -> new SimpleStringProperty(String.valueOf(tf.getValue().getPlayer2().getPerson().getNickName())));
 
         matchTable.setItems(items);
-        }
+    }
+
     @FXML
     private void handleUpdateMatchButton(ActionEvent event) {
         MatchSolo selectedMatch = matchTable.getSelectionModel().getSelectedItem();
@@ -109,49 +107,75 @@ public class SoloMatchTabController implements Initializable {
                 selectedMatch.setDate(newDate.atStartOfDay());
 
                 // Uppdatera spelare 1
-                Player player1 = selectedMatch.getPlayer1();
-                player1.getPerson().setNickName(player1AddToMatchText.getText());
+                Player player1 = player1AddToMatchToCB.getValue();
+                if (player1 != null) {
+                    selectedMatch.setPlayer1(player1);
+                }
 
                 // Uppdatera spelare 2
-                Player player2 = selectedMatch.getPlayer2();
-                player2.getPerson().setNickName(player2AddToMatchText.getText());
+                Player player2 = player2AddToMatchToCB.getValue();
+                if (player2 != null) {
+                    selectedMatch.setPlayer2(player2);
+                }
+
+                if (player1 != null && player1.equals(player2)) {
+                    showAlert("Fel", "Samma spelare kan inte vara med i samma match.");
+                    return;
+                }
 
                 // Uppdatera databasen
                 matchSoloController.updateMatchSoloPlayer(selectedMatch);
 
-                showAlert("Match Uppdaterad", "Matchen har uppdaterats!");
+                showAlert("Match Uppdaterat", "Matchen har uppdaterats!");
             } catch (DateTimeParseException e) {
                 showAlert("Fel", "Ogiltigt datumformat. Använd formatet YYYY-MM-DD");
             } catch (Exception e) {
-                showAlert("Fel", "Ett fel uppstod vid uppdatering av matchen.");
+                showAlert("Fel", "Ett fel uppstod vid uppdatering av spelarna.");
             }
         } else {
-            showAlert("Inget match vald", "Vänligen välj en match att uppdatera.");
+            showAlert("Ingen spelare vald", "Vänligen välj en spelare att uppdatera.");
         }
     }
 
+    @FXML
+    protected void handleAddSoloMatchButton(ActionEvent e) {
+        Player selectedPlayer1 = player1AddToMatchToCB.getValue();
+        Player selectedPlayer2 = player2AddToMatchToCB.getValue();
 
+        if (selectedPlayer1 != null && selectedPlayer2 != null) {
+            try {
+                // Get other required information for the match
+                LocalDate newDate = LocalDate.parse(dateAddSoloMatchText.getText(), DateTimeFormatter.ISO_LOCAL_DATE);
+                // Kolla om spelaren är i samma lag.
+                if (selectedPlayer1.equals(selectedPlayer2)) {
+                    showAlert("Fel", "Samma spelare kan inte vara med i samma match.");
+                    return;
+                }
+                // Skapar ett nytt objekt
+                MatchSolo newMatch = new MatchSolo();
+                newMatch.setDate(newDate.atStartOfDay());
+                newMatch.setPlayer1(selectedPlayer1);
+                newMatch.setPlayer2(selectedPlayer2);
 
-        /*protected void handleAddMatchButton(ActionEvent e) {
-            if (!(firstNameText.getText().isEmpty() || lastNameText.getText().isEmpty() || nickNameText.getText().isEmpty())) {
-                Dropdown-Lista: här också.
+                // Upp med den i databasen
+                matchSoloController.createMatchSoloPlayer(newMatch);
 
+                // lägg till den i tabellen
+                matchTable.getItems().add(newMatch);
 
-                Player player = new Player();
-                player.setPerson(new Person());
-                PlayerController playerController = new PlayerController();
-                player.getPerson().setFirstName(firstNameText.getText());
-                player.getPerson().setLastName(lastNameText.getText());
-                player.getPerson().setNickName(nickNameText.getText());
-                player.getPerson().setAddress(streetAdressText.getText());
-                player.getPerson().setPostalCode(zipText.getText());
-                player.getPerson().setCity(cityText.getText());
-                player.getPerson().setCountry(countryText.getText());
-                player.getPerson().setEmail(eMailText.getText());
-//            player.getTeam().getName()teamText.setText();
-                playerController.savePlayer(player);
+                showAlert("Lägg till Match", "Matchen har lagts till!");
+            } catch (DateTimeParseException ex) {
+                showAlert("Fel", "Ogiltigt datumformat. Använd formatet YYYY-MM-DD");
+            } catch (Exception ex) {
+                showAlert("Fel", "Ett fel uppstod vid läggning till matchen.");
             }
-        }*/
+        } else {
+            showAlert("Fel", "Vänligen välj olika spelare för Player 1 och Player 2.");
+        }
+
+
+
+    }
 
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -161,9 +185,53 @@ public class SoloMatchTabController implements Initializable {
         alert.showAndWait();
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Callback<ListView<Player>, ListCell<Player>> playerCellFactory = new Callback<ListView<Player>, ListCell<Player>>() {
+            @Override
+            public ListCell<Player> call(ListView<Player> l) {
+                return new ListCell<Player>() {
+                    @Override
+                    protected void updateItem(Player item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item == null || empty) {
+                            setText(null);
+                        } else {
+                            setText(item.getPerson().getNickName());
+                        }
+                    }
+                };
+            }
+        };
+
+        List<Player> players = new PlayerController().getAllPlayer(false);
+        ObservableList<Player> playerItems = FXCollections.observableList(players);
+
+        player1AddToMatchToCB.setItems(playerItems);
+        player1AddToMatchToCB.setConverter(new StringConverter<Player>() {
+            @Override
+            public String toString(Player player) {
+                return player == null ? null : player.getPerson().getNickName();
+            }
+
+            @Override
+            public Player fromString(String string) {
+                return null;
+            }
+        });
+        player2AddToMatchToCB.setItems(playerItems);
+        player2AddToMatchToCB.setConverter(new StringConverter<Player>() {
+            @Override
+            public String toString(Player player) {
+                return player == null ? null : player.getPerson().getNickName();
+            }
+
+            @Override
+            public Player fromString(String string) {
+
+                return null;
+            }
+        });
 
     }
 }

@@ -15,18 +15,18 @@ public class MatchSoloController {
     // Create
     public void createMatchSoloPlayer(MatchSolo soloMatch) {
         EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
-        EntityTransaction et = null;
+        EntityTransaction et = em.getTransaction();
 
         try {
-            et = em.getTransaction();
             et.begin();
             em.persist(soloMatch);
             et.commit();
         } catch (Exception e) {
-            if (et != null) {
+            if (et != null && et.isActive()) {
                 et.rollback();
             }
-            e.printStackTrace();
+            e.printStackTrace(); // Print the exception details
+            throw new RuntimeException("Kunde inte skapa en Solo-match: " + e.getMessage(), e);
         } finally {
             em.close();
         }
@@ -88,4 +88,5 @@ public class MatchSoloController {
             em.close();
         }
     }
+
 }
