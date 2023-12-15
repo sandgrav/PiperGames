@@ -2,17 +2,16 @@ package org.teambravo.pipergames.view;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.converter.IntegerStringConverter;
-import javafx.util.converter.LocalDateStringConverter;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
 import org.teambravo.pipergames.controller.MatchSoloController;
-import org.teambravo.pipergames.controller.MatchTeamController;
+import org.teambravo.pipergames.controller.PlayerController;
 import org.teambravo.pipergames.entity.MatchSolo;
 import org.teambravo.pipergames.entity.Player;
 
@@ -40,7 +39,11 @@ public class SoloMatchTabController implements Initializable {
     @FXML
     private TableColumn<MatchSolo, String> player1TableColumn;
     @FXML
+    private TableColumn<MatchSolo, String> player1IdTableCol;
+    @FXML
     private TableColumn<MatchSolo, String> player2TableCol;
+    @FXML
+    private TableColumn<MatchSolo, String> player2IdTableCol;
     @FXML
     private final MatchSoloController matchSoloController = new MatchSoloController();
     @FXML
@@ -56,24 +59,33 @@ public class SoloMatchTabController implements Initializable {
     @FXML
     private TableColumn<Player, String> nickNameCol;
     @FXML
+    private ChoiceBox<Player> player1AddToMatchToCB;
+    @FXML
+    private ChoiceBox<Player> player2AddToMatchToCB;
+
+    @FXML
     private TextField textFieldDeleteMatch;
+    @FXML
+    private TextField player1AddToMatchText;
 
-    int enteredMatchId;
+    @FXML
+    private TextField player2AddToMatchText;
 
+    @FXML
+    private TextField dateAddSoloMatchText;
 
     @FXML
     private void handleDeleteMatchButton(ActionEvent event) {
-    int selectedMatchId = matchTable.getSelectionModel().getSelectedIndex();
-    if (selectedMatchId >= 0){
-        MatchSolo selectedMatch = matchTable.getItems().get(selectedMatchId);
-        matchSoloController.deleteMatchById(selectedMatch.getId());
-        matchTable.getItems().remove(selectedMatchId);
-    } else showAlert("Inget match vald", "Vänligen välj en match att ta bort.");
+        int selectedMatchId = matchTable.getSelectionModel().getSelectedIndex();
+        if (selectedMatchId >= 0) {
+            MatchSolo selectedMatch = matchTable.getItems().get(selectedMatchId);
+            matchSoloController.deleteMatchById(selectedMatch.getId());
+            matchTable.getItems().remove(selectedMatchId);
+        } else showAlert("Inget match vald", "Vänligen välj en match att ta bort.");
     }
 
-
     @FXML
-    protected void handleShowAllMatchesButtonAction (ActionEvent e){
+    protected void handleShowAllMatchesButtonAction(ActionEvent e) {
         List<MatchSolo> matches = matchSoloController.getAllMatches();
         ObservableList<MatchSolo> items = FXCollections.observableList(matches);
 
@@ -83,59 +95,86 @@ public class SoloMatchTabController implements Initializable {
         player2TableCol.setCellValueFactory(tf -> new SimpleStringProperty(String.valueOf(tf.getValue().getPlayer2().getPerson().getNickName())));
 
         matchTable.setItems(items);
-        }
+    }
+
     @FXML
     private void handleUpdateMatchButton(ActionEvent event) {
-        matchTable.setEditable(true);
-        dateCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        dateCol.setOnEditCommit(editEvent -> {
-            MatchSolo editedItem = editEvent.getRowValue();
+        MatchSolo selectedMatch = matchTable.getSelectionModel().getSelectedItem();
+        if (selectedMatch != null) {
             try {
+                // Uppdatera datum
+                LocalDate newDate = LocalDate.parse(dateAddSoloMatchText.getText(), DateTimeFormatter.ISO_LOCAL_DATE);
+                selectedMatch.setDate(newDate.atStartOfDay());
 
-                LocalDate newDate = LocalDate.parse(editEvent.getNewValue(), DateTimeFormatter.ISO_LOCAL_DATE);
-                editedItem.setDate(newDate.atStartOfDay());
+                // Uppdatera spelare 1
+                Player player1 = player1AddToMatchToCB.getValue();
+                if (player1 != null) {
+                    selectedMatch.setPlayer1(player1);
+                }
+
+                // Uppdatera spelare 2
+                Player player2 = player2AddToMatchToCB.getValue();
+                if (player2 != null) {
+                    selectedMatch.setPlayer2(player2);
+                }
+
+                if (player1 != null && player1.equals(player2)) {
+                    showAlert("Fel", "Samma spelare kan inte vara med i samma match.");
+                    return;
+                }
 
                 // Uppdatera databasen
-                matchSoloController.updateMatchSoloPlayer(editedItem);
+                matchSoloController.updateMatchSoloPlayer(selectedMatch);
 
-                showAlert("Match Uppdaterad", "Datum uppdaterat!");
+                showAlert("Match Uppdaterat", "Matchen har uppdaterats!");
             } catch (DateTimeParseException e) {
                 showAlert("Fel", "Ogiltigt datumformat. Använd formatet YYYY-MM-DD");
-            }
-        });
-        player1TableColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        player1TableColumn.setOnEditCommit(editEvent -> {
-            Player editedItem = editEvent.getRowValue().getPlayer1();
-            try {
-                String newPlayer1Value = editEvent.getNewValue();
-                // Uppdatera spelaren i databasen
-                editedItem.getPerson().setNickName(newPlayer1Value);
-
-                // Uppdatera databasen
-                matchSoloController.updateMatchSoloPlayer(matchTable.getSelectionModel().getSelectedItem());
-
-                showAlert("Match Uppdaterad", "Spelare 1 uppdaterad!");
             } catch (Exception e) {
-                showAlert("Fel", "Ett fel uppstod vid uppdatering av Spelare 1.");
+                showAlert("Fel", "Ett fel uppstod vid uppdatering av spelarna.");
             }
-        });
-        player2TableCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        player2TableCol.setOnEditCommit(editEvent -> {
-            Player editedItem = editEvent.getRowValue().getPlayer2();
+        } else {
+            showAlert("Ingen spelare vald", "Vänligen välj en spelare att uppdatera.");
+        }
+    }
+
+    @FXML
+    protected void handleAddSoloMatchButton(ActionEvent e) {
+        Player selectedPlayer1 = player1AddToMatchToCB.getValue();
+        Player selectedPlayer2 = player2AddToMatchToCB.getValue();
+
+        if (selectedPlayer1 != null && selectedPlayer2 != null) {
             try {
-                String newPlayer2Value = editEvent.getNewValue();
-                // Uppdatera spelaren i databasen eller gör vad som behövs
-                editedItem.getPerson().setNickName(newPlayer2Value);
+                // Get other required information for the match
+                LocalDate newDate = LocalDate.parse(dateAddSoloMatchText.getText(), DateTimeFormatter.ISO_LOCAL_DATE);
+                // Kolla om spelaren är i samma lag.
+                if (selectedPlayer1.equals(selectedPlayer2)) {
+                    showAlert("Fel", "Samma spelare kan inte vara med i samma match.");
+                    return;
+                }
+                // Skapar ett nytt objekt
+                MatchSolo newMatch = new MatchSolo();
+                newMatch.setDate(newDate.atStartOfDay());
+                newMatch.setPlayer1(selectedPlayer1);
+                newMatch.setPlayer2(selectedPlayer2);
 
-                // Uppdatera databasen
-                matchSoloController.updateMatchSoloPlayer(matchTable.getSelectionModel().getSelectedItem());
+                // Upp med den i databasen
+                matchSoloController.createMatchSoloPlayer(newMatch);
 
-                showAlert("Match Uppdaterad", "Spelare 2 uppdaterad!");
-            } catch (Exception e) {
-                showAlert("Fel", "Ett fel uppstod vid uppdatering av Spelare 2.");
+                // lägg till den i tabellen
+                matchTable.getItems().add(newMatch);
+
+                showAlert("Lägg till Match", "Matchen har lagts till!");
+            } catch (DateTimeParseException ex) {
+                showAlert("Fel", "Ogiltigt datumformat. Använd formatet YYYY-MM-DD");
+            } catch (Exception ex) {
+                showAlert("Fel", "Ett fel uppstod vid läggning till matchen.");
             }
-        });
-        //Hej
+        } else {
+            showAlert("Fel", "Vänligen välj olika spelare för Player 1 och Player 2.");
+        }
+
+
+
     }
 
     private void showAlert(String title, String content) {
@@ -146,9 +185,53 @@ public class SoloMatchTabController implements Initializable {
         alert.showAndWait();
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Callback<ListView<Player>, ListCell<Player>> playerCellFactory = new Callback<ListView<Player>, ListCell<Player>>() {
+            @Override
+            public ListCell<Player> call(ListView<Player> l) {
+                return new ListCell<Player>() {
+                    @Override
+                    protected void updateItem(Player item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item == null || empty) {
+                            setText(null);
+                        } else {
+                            setText(item.getPerson().getNickName());
+                        }
+                    }
+                };
+            }
+        };
+
+        List<Player> players = new PlayerController().getAllPlayer(false);
+        ObservableList<Player> playerItems = FXCollections.observableList(players);
+
+        player1AddToMatchToCB.setItems(playerItems);
+        player1AddToMatchToCB.setConverter(new StringConverter<Player>() {
+            @Override
+            public String toString(Player player) {
+                return player == null ? null : player.getPerson().getNickName();
+            }
+
+            @Override
+            public Player fromString(String string) {
+                return null;
+            }
+        });
+        player2AddToMatchToCB.setItems(playerItems);
+        player2AddToMatchToCB.setConverter(new StringConverter<Player>() {
+            @Override
+            public String toString(Player player) {
+                return player == null ? null : player.getPerson().getNickName();
+            }
+
+            @Override
+            public Player fromString(String string) {
+
+                return null;
+            }
+        });
 
     }
 }
