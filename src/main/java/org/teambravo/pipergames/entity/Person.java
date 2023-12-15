@@ -30,12 +30,9 @@ public class Person {
     @Column(name = "person_email", length = 60)
     private String email;
 
-
     public Person() {
     }
 
-    // Behöver konstruktorn justeras? Behöver alla värden finnas med i den?
-//    public Person(int id, String firstName, String lastName, String nickName, String address, int postalCode, String city, String country, String email) {
     public Person(int id, String firstName, String lastName, String nickName, String address, String postalCode, String city, String country, String email) {
         this.id = id;
         this.firstName = firstName;

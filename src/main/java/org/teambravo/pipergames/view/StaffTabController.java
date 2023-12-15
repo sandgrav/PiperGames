@@ -1,23 +1,16 @@
 package org.teambravo.pipergames.view;
 
-import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import org.teambravo.pipergames.controller.StaffController;
 import org.teambravo.pipergames.controller.PersonController;
 import org.teambravo.pipergames.entity.Person;
 import org.teambravo.pipergames.entity.Staff;
-
 
 import java.io.IOException;
 import java.net.URL;
@@ -62,6 +55,7 @@ public class StaffTabController implements Initializable {
     @FXML
     private TextField email;
     private static Staff currentStaff;
+
     @FXML
     private void handleLogoutButton(ActionEvent event) throws IOException {
         try {
