@@ -31,6 +31,33 @@ public class GameController {
         }
         return false;
     }
+    // Spara som string
+    public Game saveGame1(String gameName) {
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityTransaction transaction = null;
+        Game savedGame = null;
+        try {
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+
+            Game game = new Game();
+            game.setName(gameName);
+
+            entityManager.persist(game);
+
+            transaction.commit();
+            savedGame = game;
+
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            entityManager.close();
+        }
+        return savedGame;
+    }
 
     // READ
     public List<Game> getAll(){

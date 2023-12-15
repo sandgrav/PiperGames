@@ -22,6 +22,7 @@ import org.teambravo.pipergames.entity.Player;
 import org.teambravo.pipergames.entity.Team;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -49,6 +50,8 @@ public class TeamTabController implements Initializable {
     // Lägg till lag/spelare med knapp genom textfield
     @FXML
     private TextField teamTextField;
+    @FXML
+    private TextField spelTextField;
     @FXML
     private TextField firstName;
     @FXML
@@ -102,6 +105,16 @@ public class TeamTabController implements Initializable {
                             List<Player> players = team.getPlayers();
                             ObservableList<Player> items = FXCollections.observableList(players);
                             teamTextField.setText(team.getName());
+
+
+                            if (team.getGame() != null) {
+                                spelTextField.setText(team.getGame().getName());
+                            } else {
+                                spelTextField.clear();
+                            }
+
+
+
                             firstNameCol.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getPerson().getFirstName()));
                             lastNameCol.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getPerson().getLastName()));
                             nickNameCol.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getPerson().getNickName()));
@@ -141,19 +154,24 @@ public class TeamTabController implements Initializable {
     @FXML
     protected void AddTeamButtonAction(ActionEvent e) {
         TeamController teamController = new TeamController();
+        GameController gameController = new GameController();
+        String gameName = spelTextField.getText();
         String teamName = teamTextField.getText();
 
-        // Pop up window to select team ?
-
-        if (teamName.isEmpty())
+        if (teamName.isEmpty() || gameName.isEmpty())
             return;
 
-        Team newTeam = new Team();
-        newTeam.setName(teamName);
+        Game savedGame = gameController.saveGame1(gameName);
 
-        if (teamController.saveTeam(newTeam)) {
-            teamItems.addAll(teamController.getTeamByName(teamName));
-            teamTable.refresh();
+        if (savedGame != null) {
+            Team newTeam = new Team();
+            newTeam.setName(teamName);
+            newTeam.setGame(savedGame);
+
+            if (teamController.saveTeam(newTeam)) {
+                teamItems.add(newTeam);
+                teamTable.refresh();
+            }
         }
     }
 
@@ -199,13 +217,43 @@ public class TeamTabController implements Initializable {
                 playerController.update(player);
             }
 
-            // Refresh the player table
+            // Refresh
             // List<Player> updatedPlayers = playerController.getAllPlayer(true);
             // ObservableList<Player> updatedPlayerItems = FXCollections.observableArrayList(updatedPlayers);
             // playerTable.getItems().clear();
             // playerTable.getItems().addAll(updatedPlayerItems);
         }
     }
+
+    @FXML
+    void DeletePlayerButton(ActionEvent e) {
+        PlayerController playerController = new PlayerController();
+        String playerName = firstName.getText();
+
+        if (playerName.isEmpty())
+            return;
+
+        boolean isDeleted = playerController.deletePlayerByName(playerName);
+
+        if (isDeleted) {
+            ObservableList<Player> playerList = playerTable.getItems();
+            List<Player> playersToRemove = new ArrayList<>();
+
+            for (Player player : playerList) {
+                if (player.getPerson().getFirstName().equals(playerName) ||
+                        player.getPerson().getLastName().equals(playerName) ||
+                        player.getPerson().getNickName().equals(playerName)) {
+                    playersToRemove.add(player);
+                }
+            }
+
+            playerList.removeAll(playersToRemove);
+            playerTable.refresh();
+        }
+    }
+
+
+
     @FXML
     protected void updateAllTables(ActionEvent e) {
         updateTeamTable();

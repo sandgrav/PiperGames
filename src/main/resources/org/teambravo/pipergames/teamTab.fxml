@@ -27,9 +27,9 @@
       <Button fx:id="deleteTeamByName" layoutX="476.0" layoutY="161.0" mnemonicParsing="false" onAction="#DeleteTeamButton" text="Ta bort" />
       <TextField fx:id="lastName" layoutX="476.0" layoutY="234.0" prefHeight="26.0" prefWidth="106.0" promptText="Ange efternamn:" />
       <TextField fx:id="nickName" layoutX="476.0" layoutY="266.0" prefHeight="26.0" prefWidth="106.0" promptText="Ange Nickname:" />
-      <Button layoutX="479.0" layoutY="360.0" mnemonicParsing="false" text="Ta bort" />
+      <Button layoutX="479.0" layoutY="360.0" mnemonicParsing="false" text="Ta bort" onAction="#DeletePlayerButton" />
       <Button layoutX="14.0" layoutY="1.0" mnemonicParsing="false" onAction="#updateAllTables" text="Uppdatera sidan" />
-      <TextField layoutX="476.0" layoutY="31.0" prefHeight="26.0" prefWidth="108.0" promptText="Ange spel:" />
+      <TextField fx:id="spelTextField" layoutX="476.0" layoutY="31.0" prefHeight="26.0" prefWidth="108.0" promptText="Ange spel:" />
     </children>
 
 </AnchorPane>
