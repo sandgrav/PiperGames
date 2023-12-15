@@ -98,13 +98,13 @@
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
                               <Label text="Spel" />
-                              <ComboBox fx:id="gameCmb" onAction="#handleGameSelectedAction" prefWidth="228.0" VBox.vgrow="ALWAYS" />
+                              <ComboBox fx:id="gameCmb" prefWidth="228.0" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
                               <Label text="Lag" />
-                              <ComboBox fx:id="teamCmb" onAction="#handleTeamSelectedAction" prefWidth="228.0" />
+                              <ComboBox fx:id="teamCmb" prefWidth="228.0" />
                            </children>
                         </VBox>
                      </children>
@@ -113,21 +113,9 @@
             </VBox>
             <VBox spacing="10.0">
                <children>
-                  <VBox prefHeight="200.0" spacing="10.0">
-                     <children>
-                        <Button fx:id="addPlayerButton" mnemonicParsing="false" onAction="#HandleAddPlayerButtonAction" prefWidth="60.0" text="Lägg till" />
-                        <Button fx:id="savePlayerButton" mnemonicParsing="false" onAction="#HandleSavePlayerButtonAction" prefWidth="60.0" text="Spara" />
-                        <Button fx:id="deletePlayerButton" mnemonicParsing="false" onAction="#HandleDeletePlayerButtonAction" prefWidth="60.0" text="Ta bort" />
-                     </children>
-                     <padding>
-                        <Insets top="15.0" />
-                     </padding>
-                  </VBox>
-                  <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#HandleLogoutButtonAction" prefWidth="60.0" text="Logout" />
-                     </children>
-                  </VBox>
+                  <Button fx:id="addPlayerButton" mnemonicParsing="false" onAction="#HandleAddPlayerButtonAction" prefWidth="60.0" text="Lägg till" />
+                  <Button fx:id="savePlayerButton" mnemonicParsing="false" onAction="#HandleSavePlayerButtonAction" prefWidth="60.0" text="Spara" />
+                  <Button fx:id="deletePlayerButton" mnemonicParsing="false" onAction="#HandleDeletePlayerButtonAction" prefWidth="60.0" text="Ta bort" />
                </children>
             </VBox>
          </children>
