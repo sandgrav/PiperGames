@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class TeamTabController implements Initializable {
+    // Team table
     @FXML
     private TableView<Team> teamTable;
     private ObservableList<Team> teamItems;
@@ -34,7 +35,7 @@ public class TeamTabController implements Initializable {
     @FXML
     private TableColumn<Team, String> Lag;
 
-    // Second table
+    // spelare table
 
     @FXML
     private TableView<Player> playerTable;
@@ -45,9 +46,15 @@ public class TeamTabController implements Initializable {
     @FXML
     private TableColumn<Player, String> nickNameCol;
 
-    // Lägg till lag med knapp genom textfield
+    // Lägg till lag/spelare med knapp genom textfield
     @FXML
     private TextField teamTextField;
+    @FXML
+    private TextField firstName;
+    @FXML
+    private TextField lastName;
+    @FXML
+    private TextField nickName;
 
 
     @Override
@@ -63,13 +70,14 @@ public class TeamTabController implements Initializable {
             } else {
                 return new SimpleStringProperty("");
             }
-        });        Lag.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getName()));
+        });
+        Lag.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getName()));
 
         teamTable.setItems(teamItems);
 
-        teamTable.getSelectionModel().setCellSelectionEnabled(true);
+        // teamTable.getSelectionModel().setCellSelectionEnabled(true);
 
-        teamTable.setEditable(true);
+        // teamTable.setEditable(true);
 
         Lag.setCellFactory(TextFieldTableCell.forTableColumn());
 
@@ -93,20 +101,49 @@ public class TeamTabController implements Initializable {
                                 teamTable.getSelectionModel().getSelectedItems()) {
                             List<Player> players = team.getPlayers();
                             ObservableList<Player> items = FXCollections.observableList(players);
+                            teamTextField.setText(team.getName());
                             firstNameCol.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getPerson().getFirstName()));
                             lastNameCol.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getPerson().getLastName()));
                             nickNameCol.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getPerson().getNickName()));
+                            playerTable.getItems().addAll(items);
+
+                            playerTable.getItems().clear();
                             playerTable.getItems().addAll(items);
                         }
                         teamTable.refresh();
                     }
                 }
         );
+
+        ObservableList<Player> playerSelectedItems = playerTable.getSelectionModel().getSelectedItems();
+        playerSelectedItems.addListener(
+                new ListChangeListener<Player>() {
+                    @Override
+                    public void onChanged(Change<? extends Player> change) {
+                        if (change.getList().size() == 1) {
+                            Player player = change.getList().get(0);
+                            firstName.setText(player.getPerson().getFirstName());
+                            lastName.setText(player.getPerson().getLastName());
+                            nickName.setText(player.getPerson().getNickName());
+
+                        } else {
+                            firstName.setText("");
+                            lastName.setText("");
+                            nickName.setText("");
+                        }
+                    }
+                }
+        );
+
+
     }
+
     @FXML
     protected void AddTeamButtonAction(ActionEvent e) {
         TeamController teamController = new TeamController();
         String teamName = teamTextField.getText();
+
+        // Pop up window to select team ?
 
         if (teamName.isEmpty())
             return;
@@ -134,25 +171,58 @@ public class TeamTabController implements Initializable {
 
             teamItems.removeIf(team -> team.getName().equals(teamName));
 
-            teamTable.refresh();
+
         }
+        teamTable.refresh();
     }
 
 
+    @FXML
+    protected void AddPlayerButtonAction(ActionEvent e) {
+        if (!(firstName.getText().isEmpty() || lastName.getText().isEmpty() || nickName.getText().isEmpty())) {
+
+            Player player = new Player();
+            player.setPerson(new Person());
+            PlayerController playerController = new PlayerController();
+            player.getPerson().setFirstName(firstName.getText());
+            player.getPerson().setLastName(lastName.getText());
+            player.getPerson().setNickName(nickName.getText());
+            playerController.savePlayer(player);
+
+            TeamController teamController = new TeamController();
+            String teamName = teamTextField.getText();
+
+            Team team = teamController.getTeamByOneName(teamName);
+
+            if (team != null) {
+                player.setTeam(team);
+                playerController.update(player);
+            }
+
+            // Refresh the player table
+            // List<Player> updatedPlayers = playerController.getAllPlayer(true);
+            // ObservableList<Player> updatedPlayerItems = FXCollections.observableArrayList(updatedPlayers);
+            // playerTable.getItems().clear();
+            // playerTable.getItems().addAll(updatedPlayerItems);
+        }
+    }
+    @FXML
+    protected void updateAllTables(ActionEvent e) {
+        updateTeamTable();
+        updatePlayerTable();
+    }
+
+    private void updateTeamTable() {
+        List<Team> teams = new TeamController().getAllTeams(true);
+        teamItems.clear();
+        teamItems.addAll(teams);
+        teamTable.refresh();
+    }
+
+    private void updatePlayerTable() {
+        List<Player> players = new PlayerController().getAllPlayer(true);
+        playerTable.getItems().clear();
+        playerTable.getItems();
+        playerTable.refresh();
+    }
 }
-
-
-
-
-
-
-
-
-// List<Player> players = new PlayerController().getAllPlayer(true);
-// ObservableList<Player> playerItems = FXCollections.observableList(players);
-
-// TableColumn<Player, String> firstNameColumn = new TableColumn<>("First Name");
-// firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-
-
-// userTable1.setItems(playerItems);
