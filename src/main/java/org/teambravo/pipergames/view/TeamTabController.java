@@ -21,6 +21,9 @@ import org.teambravo.pipergames.entity.Person;
 import org.teambravo.pipergames.entity.Player;
 import org.teambravo.pipergames.entity.Team;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,7 @@ public class TeamTabController implements Initializable {
     @FXML
     private TableView<Team> teamTable;
     private ObservableList<Team> teamItems;
+    private ObservableList<Player> playerItems;
     @FXML
     private TableColumn<Team, String> Spel;
     @FXML
@@ -161,6 +165,23 @@ public class TeamTabController implements Initializable {
         if (teamName.isEmpty() || gameName.isEmpty())
             return;
 
+        for (Team team : teamItems) {
+            if (team.getName().equalsIgnoreCase(teamName)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Team name already exists.");
+                alert.setHeaderText("Error!");
+                alert.setContentText("You need to input a team name that does not exist.");
+
+                alert.showAndWait();
+
+                if (alert.getResult() == ButtonType.OK) {
+                    return;
+                } else if (alert.getResult() == ButtonType.CANCEL) {
+                    return;
+                }
+            }
+        }
+
         Game savedGame = gameController.saveGame1(gameName);
 
         if (savedGame != null) {
@@ -209,6 +230,7 @@ public class TeamTabController implements Initializable {
 
             TeamController teamController = new TeamController();
             String teamName = teamTextField.getText();
+
 
             Team team = teamController.getTeamByOneName(teamName);
 
