@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="540" maxWidth="980" minHeight="540.0" minWidth="980.0" prefHeight="540.0" prefWidth="980.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.teambravo.pipergames.view.PlayerTabController">
+<VBox maxHeight="540" maxWidth="980" minHeight="540.0" minWidth="980.0" prefHeight="540.0" prefWidth="980.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.teambravo.pipergames.view.PlayerTabController">
    <children>
       <HBox fillHeight="false" prefHeight="15.0" spacing="10.0">
          <padding>
@@ -92,13 +98,13 @@
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
                               <Label text="Spel" />
-                              <ComboBox fx:id="gameCmb" onAction="#handleGameSelectedAction" prefWidth="228.0" VBox.vgrow="ALWAYS" />
+                              <ComboBox fx:id="gameCmb" prefWidth="228.0" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
                               <Label text="Lag" />
-                              <ComboBox fx:id="teamCmb" onAction="#handleTeamSelectedAction" prefWidth="228.0" />
+                              <ComboBox fx:id="teamCmb" prefWidth="228.0" />
                            </children>
                         </VBox>
                      </children>
@@ -107,21 +113,9 @@
             </VBox>
             <VBox spacing="10.0">
                <children>
-                  <VBox prefHeight="200.0" spacing="10.0">
-                     <children>
-                        <Button fx:id="addPlayerButton" mnemonicParsing="false" onAction="#HandleAddPlayerButtonAction" prefWidth="60.0" text="Lägg till" />
-                        <Button fx:id="savePlayerButton" mnemonicParsing="false" onAction="#HandleSavePlayerButtonAction" prefWidth="60.0" text="Spara" />
-                        <Button fx:id="deletePlayerButton" mnemonicParsing="false" onAction="#HandleDeletePlayerButtonAction" prefWidth="60.0" text="Ta bort" />
-                     </children>
-                     <padding>
-                        <Insets top="15.0" />
-                     </padding>
-                  </VBox>
-                  <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#HandleLogoutButtonAction" prefWidth="60.0" text="Logout" />
-                     </children>
-                  </VBox>
+                  <Button fx:id="addPlayerButton" mnemonicParsing="false" onAction="#HandleAddPlayerButtonAction" prefWidth="60.0" text="Lägg till" />
+                  <Button fx:id="savePlayerButton" mnemonicParsing="false" onAction="#HandleSavePlayerButtonAction" prefWidth="60.0" text="Spara" />
+                  <Button fx:id="deletePlayerButton" mnemonicParsing="false" onAction="#HandleDeletePlayerButtonAction" prefWidth="60.0" text="Ta bort" />
                </children>
             </VBox>
          </children>
