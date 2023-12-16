@@ -1,6 +1,7 @@
 package org.teambravo.pipergames.entity;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "team_matches")
@@ -23,13 +24,13 @@ public class MatchTeam {
     private Team team2;
 
     @Column(name  = "date")
-    private int date;
+    private LocalDateTime date;
 
 
     public MatchTeam() {
     }
 
-    public MatchTeam(int id, Team player1, Team player2, int date) {
+    public MatchTeam(int id, Team player1, Team player2, LocalDateTime date) {
         this.id = id;
         this.team1 = team1;
         this.team2 = team2;
@@ -60,11 +61,11 @@ public class MatchTeam {
         this.team2 = team2;
     }
 
-    public int getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(int date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 }

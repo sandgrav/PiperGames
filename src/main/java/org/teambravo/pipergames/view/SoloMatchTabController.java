@@ -144,7 +144,7 @@ public class SoloMatchTabController implements Initializable {
 
         if (selectedPlayer1 != null && selectedPlayer2 != null) {
             try {
-                // Get other required information for the match
+
                 LocalDate newDate = LocalDate.parse(dateAddSoloMatchText.getText(), DateTimeFormatter.ISO_LOCAL_DATE);
                 // Kolla om spelaren är i samma lag.
                 if (selectedPlayer1.equals(selectedPlayer2)) {
