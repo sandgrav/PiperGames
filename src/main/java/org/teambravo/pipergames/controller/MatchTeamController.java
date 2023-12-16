@@ -49,7 +49,7 @@ public class MatchTeamController {
     }
 
     // Update
-    public void updateTeamMatch(MatchTeam matchTeam) {
+    public static void updateTeamMatch(MatchTeam matchTeam) {
         EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction et = null;
 
