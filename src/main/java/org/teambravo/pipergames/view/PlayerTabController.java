@@ -177,55 +177,54 @@ public class PlayerTabController implements Initializable {
         teamTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         ObservableList<Team> teamSelectedItems = teamTable.getSelectionModel().getSelectedItems();
         teamSelectedItems.addListener(
-                new ListChangeListener<Team>() {
-                    @Override
-                    public void onChanged(Change<? extends Team> change) {
-                        playerTable.getItems().clear();
-                        for (Team team:
-                                teamTable.getSelectionModel().getSelectedItems()) {
-                            List<Player> players = team.getPlayers();
-                            ObservableList<Player> items = FXCollections.observableList(players);
-                            firstNameCol.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getPerson().getFirstName()));
-                            lastNameCol.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getPerson().getLastName()));
-                            nickNameCol.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getPerson().getNickName()));
-                            playerTable.getItems().addAll(items);
-                        }
+            new ListChangeListener<Team>() {
+                @Override
+                public void onChanged(Change<? extends Team> change) {
+                    playerTable.getItems().clear();
+                    for (Team team:
+                            teamTable.getSelectionModel().getSelectedItems()) {
+                        List<Player> players = team.getPlayers();
+                        ObservableList<Player> items = FXCollections.observableList(players);
+                        firstNameCol.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getPerson().getFirstName()));
+                        lastNameCol.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getPerson().getLastName()));
+                        nickNameCol.setCellValueFactory(tf -> new SimpleStringProperty(tf.getValue().getPerson().getNickName()));
+                        playerTable.getItems().addAll(items);
                     }
                 }
+            }
         );
 
         ObservableList<Player> playerSelectedItems = playerTable.getSelectionModel().getSelectedItems();
         playerSelectedItems.addListener(
-                new ListChangeListener<Player>() {
-                    @Override
-                    public void onChanged(Change<? extends Player> change) {
-                        if (change.getList().size() == 1) {
-                            Player player = change.getList().get(0);
-                            firstNameText.setText(player.getPerson().getFirstName());
-                            lastNameText.setText(player.getPerson().getLastName());
-                            nickNameText.setText(player.getPerson().getNickName());
-                            streetAdressText.setText(player.getPerson().getAddress());
-                            zipText.setText(player.getPerson().getPostalCode());
-                            cityText.setText(player.getPerson().getCity());
-                            countryText.setText(player.getPerson().getCountry());
-                            eMailText.setText(player.getPerson().getEmail());
-                            gameCmb.setValue(player.getGame());
-                            teamCmb.getSelectionModel().select(player.getTeam());
-                        } else {
-                            firstNameText.setText("");
-                            lastNameText.setText("");
-                            nickNameText.setText("");
-                            streetAdressText.setText("");
-                            zipText.setText("");
-                            cityText.setText("");
-                            countryText.setText("");
-                            eMailText.setText("");
-                            gameCmb.getSelectionModel().clearSelection();
-                            teamCmb.getSelectionModel().clearSelection();
-//                            teamCmb.
-                        }
+            new ListChangeListener<Player>() {
+                @Override
+                public void onChanged(Change<? extends Player> change) {
+                    if (change.getList().size() == 1) {
+                        Player player = change.getList().get(0);
+                        firstNameText.setText(player.getPerson().getFirstName());
+                        lastNameText.setText(player.getPerson().getLastName());
+                        nickNameText.setText(player.getPerson().getNickName());
+                        streetAdressText.setText(player.getPerson().getAddress());
+                        zipText.setText(player.getPerson().getPostalCode());
+                        cityText.setText(player.getPerson().getCity());
+                        countryText.setText(player.getPerson().getCountry());
+                        eMailText.setText(player.getPerson().getEmail());
+                        gameCmb.setValue(player.getGame());
+                        teamCmb.setValue(player.getTeam());
+                    } else {
+                        firstNameText.setText("");
+                        lastNameText.setText("");
+                        nickNameText.setText("");
+                        streetAdressText.setText("");
+                        zipText.setText("");
+                        cityText.setText("");
+                        countryText.setText("");
+                        eMailText.setText("");
+                        gameCmb.getSelectionModel().clearSelection();
+                        teamCmb.getSelectionModel().clearSelection();
                     }
                 }
+            }
         );
 
         List<Game> games = new GameController().getAll();

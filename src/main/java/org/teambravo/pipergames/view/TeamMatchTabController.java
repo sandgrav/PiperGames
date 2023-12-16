@@ -2,6 +2,7 @@ package org.teambravo.pipergames.view;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,15 +11,19 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import org.teambravo.pipergames.controller.GameController;
 import org.teambravo.pipergames.controller.MatchTeamController;
 import org.teambravo.pipergames.controller.TeamController;
+import org.teambravo.pipergames.entity.Game;
 import org.teambravo.pipergames.entity.MatchTeam;
+import org.teambravo.pipergames.entity.Player;
 import org.teambravo.pipergames.entity.Team;
 
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -50,7 +55,8 @@ public class TeamMatchTabController implements Initializable {
     private ChoiceBox<Team> team2AddToMatchToCB;
     @FXML
     private TextField dateAddTeamMatchText;
-
+    @FXML
+    private ComboBox<Team> winnerCmb;
 
     @FXML
     private void handleDeleteTeamMatchButton(ActionEvent event) {
@@ -69,8 +75,8 @@ public class TeamMatchTabController implements Initializable {
 
         teamMatchIdColumn.setCellValueFactory(tf -> new SimpleStringProperty(String.valueOf(tf.getValue().getId())));
         teamDateCol.setCellValueFactory(tf -> new SimpleStringProperty(String.valueOf(tf.getValue().getDate())));
-        team1TableColumn.setCellValueFactory(tf -> new SimpleStringProperty(String.valueOf(tf.getValue().getTeamClass1().getName())));
-        team2TableCol.setCellValueFactory(tf -> new SimpleStringProperty(String.valueOf(tf.getValue().getTeamclass2().getName())));
+        team1TableColumn.setCellValueFactory(tf -> new SimpleStringProperty(String.valueOf(tf.getValue().getTeam1().getName())));
+        team2TableCol.setCellValueFactory(tf -> new SimpleStringProperty(String.valueOf(tf.getValue().getTeam2().getName())));
 
         teamMatchTable.setItems(items);
     }
@@ -87,18 +93,24 @@ public class TeamMatchTabController implements Initializable {
                 // Uppdatera spelare 1
                 Team team1 = team1AddToMatchToCB.getValue();
                 if (team1 != null) {
-                    selectedTeamMatch.setTeamClass1(team1);
+                    selectedTeamMatch.setTeam1(team1);
                 }
 
                 // Uppdatera spelare 2
                 Team team2 = team2AddToMatchToCB.getValue();
                 if (team2 != null) {
-                    selectedTeamMatch.setTeamClass2(team2);
+                    selectedTeamMatch.setTeam2(team2);
                 }
 
                 if (team1 != null && team1.equals(team2)) {
                     showAlert("Fel", "Samma spelare kan inte vara med i samma match.");
                     return;
+                }
+
+                // Uppdatera vinnare
+                Team vinnare = winnerCmb.getValue();
+                if (vinnare != null) {
+                    selectedTeamMatch.setWinner(vinnare);
                 }
 
                 // Uppdatera databasen
@@ -132,8 +144,8 @@ public class TeamMatchTabController implements Initializable {
                 // Skapar ett nytt objekt
                 MatchTeam newTeamMatch = new MatchTeam();
                 newTeamMatch.setDate(newDate.atStartOfDay());
-                newTeamMatch.setTeamClass1(selectedTeam1);
-                newTeamMatch.setTeamClass2(selectedTeam2);
+                newTeamMatch.setTeam1(selectedTeam1);
+                newTeamMatch.setTeam2(selectedTeam2);
 
                 // Upp med den i databasen
                 matchTeamController.createMatchTeam(newTeamMatch);
@@ -211,5 +223,40 @@ public class TeamMatchTabController implements Initializable {
             }
         });
 
+        ObservableList<MatchTeam> matchTeamSelectedItems = teamMatchTable.getSelectionModel().getSelectedItems();
+        matchTeamSelectedItems.addListener(
+                new ListChangeListener<MatchTeam>() {
+                    @Override
+                    public void onChanged(Change<? extends MatchTeam> change) {
+                        if (change.getList().size() == 1) {
+                            MatchTeam matchTeam = change.getList().get(0);
+                            winnerCmb.getItems().clear();
+                            winnerCmb.getItems().addAll(matchTeam.getTeam1(), matchTeam.getTeam2());
+                            winnerCmb.setValue(matchTeam.getWinner());
+                        } else {
+                            winnerCmb.getItems().clear();
+                        }
+                    }
+                }
+        );
+
+        // Just set the button cell here:
+        winnerCmb.setButtonCell(teamCellFactory.call(null));
+        winnerCmb.setCellFactory(teamCellFactory);
+        winnerCmb.setConverter(new StringConverter<Team>() {
+            @Override
+            public String toString(Team object) {
+                if (object == null) {
+                    return "";
+                } else {
+                    return object.getName();
+                }
+            }
+
+            @Override
+            public Team fromString(String string) {
+                return null;
+            }
+        });
     }
 }

@@ -155,3 +155,8 @@ insert into solo_matches(date, player1_id, player2_id) values(DATE(20231231), @P
 
 insert into solo_matches(date, player1_id, player2_id) values(DATE(20000101), @PersonKey17, @PersonKey19);
 insert into solo_matches(date, player1_id, player2_id) values(DATE(20231231), @PersonKey18, @PersonKey20);
+
+
+-- Insert of data in TeamMatches
+insert into team_matches(date, team1_id, team2_id) values(DATE(20000101), @TeamKey1, @TeamKey2);
+insert into team_matches(date, team1_id, team2_id) values(DATE(20231231), @TeamKey3, @TeamKey4);
