@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.ComboBox?>
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.teambravo.pipergames.view.SoloMatchTabController">
    <children>
       <VBox minWidth="-Infinity" prefHeight="524.0" prefWidth="694.0" HBox.hgrow="ALWAYS">
@@ -24,11 +25,20 @@
                         <TableColumn fx:id="matchIdColumn" minWidth="75.0" prefWidth="-1.0" text="MatchID" />
                         <TableColumn fx:id="dateCol" minWidth="75.0" prefWidth="-1.0" text="Datum" />
                         <TableColumn fx:id="player1TableColumn" minWidth="75.0" prefWidth="-1.0" text="Spelare 1" />
-                        <TableColumn fx:id="player1IdTableCol" minWidth="75.0" prefWidth="-1.0" text="Spelare 1 ID" />
                         <TableColumn fx:id="player2TableCol" minWidth="75.0" prefWidth="-1.0" text="Spelare 2" />
-                        <TableColumn fx:id="player2IdTableCol" minWidth="75.0" prefWidth="-1.0" text="Spelare 2 ID" />
+                        <TableColumn fx:id="winnerSoloTableCol" minWidth="75.0" prefWidth="-1.0" text="Winner" />
                      </columns>
                   </TableView>
+                  <VBox prefHeight="377.0" spacing="10.0">
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Label text="Vinnare" />
+                              <ComboBox fx:id="winnerCmb" prefWidth="150.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
                   <VBox prefHeight="377.0" prefWidth="109.0">
                      <children>
                         <Button fx:id="showAllMatches" mnemonicParsing="false" onAction="#handleShowAllMatchesButtonAction" text="Visa alla Matcher" />

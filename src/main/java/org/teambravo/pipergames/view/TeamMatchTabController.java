@@ -77,6 +77,11 @@ public class TeamMatchTabController implements Initializable {
         teamDateCol.setCellValueFactory(tf -> new SimpleStringProperty(String.valueOf(tf.getValue().getDate())));
         team1TableColumn.setCellValueFactory(tf -> new SimpleStringProperty(String.valueOf(tf.getValue().getTeam1().getName())));
         team2TableCol.setCellValueFactory(tf -> new SimpleStringProperty(String.valueOf(tf.getValue().getTeam2().getName())));
+        winnerTeamTableCol.setCellValueFactory(tf -> {
+            Team winner = tf.getValue().getWinner();
+            return new SimpleStringProperty(winner == null ? "" : winner.getName());
+        });
+
 
         teamMatchTable.setItems(items);
     }
@@ -103,14 +108,14 @@ public class TeamMatchTabController implements Initializable {
                 }
 
                 if (team1 != null && team1.equals(team2)) {
-                    showAlert("Fel", "Samma spelare kan inte vara med i samma match.");
+                    showAlert("Fel", "Samma Lag kan inte vara med i samma match.");
                     return;
                 }
 
                 // Uppdatera vinnare
-                Team vinnare = winnerCmb.getValue();
-                if (vinnare != null) {
-                    selectedTeamMatch.setWinner(vinnare);
+                Team winner = winnerCmb.getValue();
+                if (winner != null) {
+                    selectedTeamMatch.setWinner(winner);
                 }
 
                 // Uppdatera databasen
@@ -160,7 +165,7 @@ public class TeamMatchTabController implements Initializable {
                 showAlert("Fel", "Ett fel uppstod vid läggning till matchen.");
             }
         } else {
-            showAlert("Fel", "Vänligen välj olika spelare för Player 1 och Player 2.");
+            showAlert("Fel", "Vänligen välj olika Lag för Lag 1 och Lag 2.");
         }
 
 
@@ -194,9 +199,20 @@ public class TeamMatchTabController implements Initializable {
             }
         };
 
+        teamMatchTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, selectedMatch) -> {
+            if (selectedMatch != null) {
+                // Uppdatera ComboBox och Datumfönster med matchinformation när den är markerad i tabellen
+                team1AddToMatchToCB.setValue(selectedMatch.getTeam1());
+                team2AddToMatchToCB.setValue(selectedMatch.getTeam2());
+                winnerCmb.setValue(selectedMatch.getWinner());
+
+                LocalDate matchDate = selectedMatch.getDate().toLocalDate();
+                dateAddTeamMatchText.setText(matchDate.format(DateTimeFormatter.ISO_LOCAL_DATE));
+            }
+        });
+
         List<Team> teams = new TeamController().getAllTeams(false);
         ObservableList<Team> teamItems = FXCollections.observableList(teams);
-
         team1AddToMatchToCB.setItems(teamItems);
         team1AddToMatchToCB.setConverter(new StringConverter<Team>() {
             @Override
@@ -209,6 +225,7 @@ public class TeamMatchTabController implements Initializable {
                 return null;
             }
         });
+
         team2AddToMatchToCB.setItems(teamItems);
         team2AddToMatchToCB.setConverter(new StringConverter<Team>() {
             @Override
@@ -238,9 +255,9 @@ public class TeamMatchTabController implements Initializable {
                         }
                     }
                 }
-        );
+        );//Lägg till Check TodaysDate metod
 
-        // Just set the button cell here:
+        //
         winnerCmb.setButtonCell(teamCellFactory.call(null));
         winnerCmb.setCellFactory(teamCellFactory);
         winnerCmb.setConverter(new StringConverter<Team>() {

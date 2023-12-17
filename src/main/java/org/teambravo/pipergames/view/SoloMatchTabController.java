@@ -2,6 +2,7 @@ package org.teambravo.pipergames.view;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,7 +14,9 @@ import javafx.util.StringConverter;
 import org.teambravo.pipergames.controller.MatchSoloController;
 import org.teambravo.pipergames.controller.PlayerController;
 import org.teambravo.pipergames.entity.MatchSolo;
+import org.teambravo.pipergames.entity.MatchTeam;
 import org.teambravo.pipergames.entity.Player;
+import org.teambravo.pipergames.entity.Team;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -43,7 +46,7 @@ public class SoloMatchTabController implements Initializable {
     @FXML
     private TableColumn<MatchSolo, String> player2TableCol;
     @FXML
-    private TableColumn<MatchSolo, String> player2IdTableCol;
+    private TableColumn<MatchSolo, String> winnerSoloTableCol;
     @FXML
     private final MatchSoloController matchSoloController = new MatchSoloController();
     @FXML
@@ -62,6 +65,9 @@ public class SoloMatchTabController implements Initializable {
     private ChoiceBox<Player> player1AddToMatchToCB;
     @FXML
     private ChoiceBox<Player> player2AddToMatchToCB;
+    @FXML
+    private ComboBox<Player> winnerCmb;
+
 
     @FXML
     private TextField textFieldDeleteMatch;
@@ -93,6 +99,11 @@ public class SoloMatchTabController implements Initializable {
         dateCol.setCellValueFactory(tf -> new SimpleStringProperty(String.valueOf(tf.getValue().getDate())));
         player1TableColumn.setCellValueFactory(tf -> new SimpleStringProperty(String.valueOf(tf.getValue().getPlayer1().getPerson().getNickName())));
         player2TableCol.setCellValueFactory(tf -> new SimpleStringProperty(String.valueOf(tf.getValue().getPlayer2().getPerson().getNickName())));
+        winnerSoloTableCol.setCellValueFactory(tf -> {
+            Player winner = tf.getValue().getWinner();
+            return new SimpleStringProperty(winner == null ? "" : winner.getPerson().getNickName());
+        });
+
 
         matchTable.setItems(items);
     }
@@ -121,6 +132,12 @@ public class SoloMatchTabController implements Initializable {
                 if (player1 != null && player1.equals(player2)) {
                     showAlert("Fel", "Samma spelare kan inte vara med i samma match.");
                     return;
+                }
+
+                // Uppdatera vinnare
+                Player winner = winnerCmb.getValue();
+                if (winner != null) {
+                    selectedMatch.setWinner(winner);
                 }
 
                 // Uppdatera databasen
@@ -204,21 +221,31 @@ public class SoloMatchTabController implements Initializable {
             }
         };
 
+        matchTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, selectedMatch) -> {
+            if (selectedMatch != null) {
+                // Uppdatera ComboBox och Datumfönster med matchinformation när den är markerad i tabellen
+                player1AddToMatchToCB.setValue(selectedMatch.getPlayer1());
+                player2AddToMatchToCB.setValue(selectedMatch.getPlayer2());
+                winnerCmb.setValue(selectedMatch.getWinner());
+
+                LocalDate matchDate = selectedMatch.getDate().toLocalDate();
+                dateAddSoloMatchText.setText(matchDate.format(DateTimeFormatter.ISO_LOCAL_DATE));
+            }
+        });
+
         List<Player> players = new PlayerController().getAllPlayer(false);
         ObservableList<Player> playerItems = FXCollections.observableList(players);
-
         player1AddToMatchToCB.setItems(playerItems);
         player1AddToMatchToCB.setConverter(new StringConverter<Player>() {
             @Override
-            public String toString(Player player) {
-                return player == null ? null : player.getPerson().getNickName();
-            }
+            public String toString(Player player) {return player == null ? null : player.getPerson().getNickName();}
 
             @Override
             public Player fromString(String string) {
-                return null;
-            }
+                    return null;
+                }
         });
+
         player2AddToMatchToCB.setItems(playerItems);
         player2AddToMatchToCB.setConverter(new StringConverter<Player>() {
             @Override
@@ -233,5 +260,39 @@ public class SoloMatchTabController implements Initializable {
             }
         });
 
+        ObservableList<MatchSolo> matchSoloSelectedItems = matchTable.getSelectionModel().getSelectedItems();
+        matchSoloSelectedItems.addListener(
+                new ListChangeListener<MatchSolo>() {
+                    @Override
+                    public void onChanged(Change<? extends MatchSolo> change) {
+                        if (change.getList().size() == 1) {
+                            MatchSolo matchSolo = change.getList().get(0);
+                            winnerCmb.getItems().clear();
+                            winnerCmb.getItems().addAll(matchSolo.getPlayer1(), matchSolo.getPlayer2());
+                            winnerCmb.setValue(matchSolo.getWinner());
+                        } else {
+                            winnerCmb.getItems().clear();
+                        }
+                    }
+                });
+
+        //Lägg till Check TodaysDate metod
+        winnerCmb.setButtonCell(playerCellFactory.call(null));
+        winnerCmb.setCellFactory(playerCellFactory);
+        winnerCmb.setConverter(new StringConverter<Player>() {
+            @Override
+            public String toString(Player object) {
+                if (object == null) {
+                    return "";
+                } else {
+                    return object.getPerson().getNickName();
+                }
+            }
+
+            @Override
+            public Player fromString(String string) {
+                    return null;
+                }
+            });
     }
 }
