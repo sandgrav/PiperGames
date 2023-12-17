@@ -26,7 +26,8 @@
                                 <TableColumn fx:id="teamDateCol" minWidth="75.0" prefWidth="-1.0" text="Datum" />
                                 <TableColumn fx:id="team1TableColumn" minWidth="75.0" prefWidth="-1.0" text="Team1" />
                                 <TableColumn fx:id="team2TableCol" minWidth="75.0" prefWidth="-1.0" text="Team 2" />
-                                <TableColumn fx:id="winnerTeamTableCol" minWidth="75.0" prefWidth="-1.0" text="Vinnare" />
+                                <TableColumn fx:id="winnerTeamTableCol" minWidth="75.0" prefWidth="-1.0" text="Winner" />
+
                             </columns>
                         </TableView>
                   <VBox prefHeight="377.0" spacing="10.0">
