@@ -14,78 +14,78 @@ public class MatchTeamController {
 
     // Create
     public void createMatchTeam(MatchTeam matchTeam) {
-        EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
-        EntityTransaction et = null;
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityTransaction transaction = null;
 
         try {
-            et = em.getTransaction();
-            et.begin();
-            em.persist(matchTeam);
-            et.commit();
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+            entityManager.persist(matchTeam);
+            transaction.commit();
         } catch (Exception e) {
-            if (et != null) {
-                et.rollback();
+            if (transaction != null) {
+                transaction.rollback();
             }
             e.printStackTrace();
         } finally {
-            em.close();
+            entityManager.close();
         }
     }
 
     // Read
     public List<MatchTeam> getAllMatches() {
-        EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         String query = "SELECT t FROM MatchTeam t";
-        List<MatchTeam> teamMatches = em.createQuery(query, MatchTeam.class).getResultList();
-        em.close();
+        List<MatchTeam> teamMatches = entityManager.createQuery(query, MatchTeam.class).getResultList();
+        entityManager.close();
         return teamMatches;
     }
 
     public Optional<MatchTeam> getMatchById(int matchId) {
-        EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
-        MatchTeam matchTeam = em.find(MatchTeam.class, matchId);
-        em.close();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        MatchTeam matchTeam = entityManager.find(MatchTeam.class, matchId);
+        entityManager.close();
         return Optional.ofNullable(matchTeam);
     }
 
     // Update
-    public void updateTeamMatch(MatchTeam matchTeam) {
-        EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
-        EntityTransaction et = null;
+    public static void updateTeamMatch(MatchTeam matchTeam) {
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityTransaction transaction = null;
 
         try {
-            et = em.getTransaction();
-            et.begin();
-            em.merge(matchTeam);
-            et.commit();
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+            entityManager.merge(matchTeam);
+            transaction.commit();
         } catch (Exception e) {
-            if (et != null) {
-                et.rollback();
+            if (transaction != null) {
+                transaction.rollback();
             }
             e.printStackTrace();
         } finally {
-            em.close();
+            entityManager.close();
         }
     }
 
     // Delete
     public void deleteTeamMatch(int matchId) {
-        EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
-        EntityTransaction et = null;
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityTransaction transaction = null;
 
         try {
-            et = em.getTransaction();
-            et.begin();
-            MatchTeam matchTeam = em.find(MatchTeam.class, matchId);
-            em.remove(matchTeam);
-            et.commit();
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+            MatchTeam matchTeam = entityManager.find(MatchTeam.class, matchId);
+            entityManager.remove(matchTeam);
+            transaction.commit();
         } catch (Exception e) {
-            if (et != null) {
-                et.rollback();
+            if (transaction != null) {
+                transaction.rollback();
             }
             e.printStackTrace();
         } finally {
-            em.close();
+            entityManager.close();
         }
     }
 }

@@ -23,6 +23,9 @@ public class MatchSolo {
     @Column(name = "date")
     private LocalDateTime date;
 
+    @JoinColumn(name = "winner_id")
+    private Player winner;
+
     @ManyToOne
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
@@ -35,6 +38,7 @@ public class MatchSolo {
         this.player1 = player1;
         this.player2 = player2;
         this.date = date;
+        this.winner = winner;
     }
 
     public int getId() {
@@ -62,4 +66,12 @@ public class MatchSolo {
     public LocalDateTime getDate() { return date; }
 
     public void setDate(LocalDateTime date) { this.date = date; }
+
+    public Player getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
+    }
 }
