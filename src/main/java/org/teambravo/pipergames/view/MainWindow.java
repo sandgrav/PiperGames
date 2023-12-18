@@ -31,6 +31,9 @@ public class MainWindow implements Initializable {
             tab = new Tab("Lagmatcher");
             tabPane.getTabs().add(tab);
             tab.setContent((Node) FXMLLoader.load(Main.class.getResource("teamMatchTab.fxml")));
+            tab = new Tab("Turneringar");
+            tabPane.getTabs().add(tab);
+            tab.setContent((Node) FXMLLoader.load(Main.class.getResource("tournamentTab.fxml")));
             tab = new Tab("Personal");
             tabPane.getTabs().add(tab);
             tab.setContent((Node) FXMLLoader.load(Main.class.getResource("staffTab.fxml")));

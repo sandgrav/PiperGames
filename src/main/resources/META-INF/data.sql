@@ -104,13 +104,13 @@ SELECT @PlayerKey5 := @@IDENTITY;
 INSERT INTO players(person_person_id, team_id, game_id) VALUES (@PersonKey10, @TeamKey2, @GameKey1);
 SELECT @PlayerKey6 := @@IDENTITY;
 
-INSERT INTO players(person_person_id, team_id, game_id) VALUES (@PersonKey11, @TeamKey3, @GameKey2);
+INSERT INTO players(person_person_id, team_id, game_id) VALUES (@PersonKey11, @TeamKey3, @GameKey1);
 SELECT @PlayerKey7 := @@IDENTITY;
 
-INSERT INTO players(person_person_id, team_id, game_id) VALUES (@PersonKey12, @TeamKey3, @GameKey2);
+INSERT INTO players(person_person_id, team_id, game_id) VALUES (@PersonKey12, @TeamKey3, @GameKey1);
 SELECT @PlayerKey8 := @@IDENTITY;
 
-INSERT INTO players(person_person_id, team_id, game_id) VALUES (@PersonKey13, @TeamKey3, @GameKey2);
+INSERT INTO players(person_person_id, team_id, game_id) VALUES (@PersonKey13, @TeamKey3, @GameKey1);
 SELECT @PlayerKey9 := @@IDENTITY;
 
 INSERT INTO players(person_person_id, team_id, game_id) VALUES (@PersonKey14, @TeamKey4, @GameKey2);

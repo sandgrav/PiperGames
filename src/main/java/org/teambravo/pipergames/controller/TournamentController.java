@@ -1,28 +1,25 @@
     package org.teambravo.pipergames.controller;
 
     import org.teambravo.pipergames.entity.Player;
-    import org.teambravo.pipergames.entity.Staff;
     import org.teambravo.pipergames.entity.Tournament;
 
     import javax.persistence.*;
     import java.util.ArrayList;
     import java.util.List;
 
-    public class PlayerController {
+    public class TournamentController {
 
         // The value "hibernate" at the end of the row is a pointer of which settings in persistence.xml to use.
         public static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("hibernate");
 
         // CREATE
-        public boolean savePlayer(Player player) {
+        public boolean save(Tournament tournament) {
             EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
             EntityTransaction transaction = null;
             try {
                 transaction = entityManager.getTransaction();
                 transaction.begin();
-                entityManager.persist(player.getPerson());
-                player.setPlayerId(player.getPerson().getId());
-                entityManager.persist(player);
+                entityManager.persist(tournament);
                 transaction.commit();
                 return true;
             } catch (Exception e) {
@@ -37,20 +34,14 @@
         }
 
         // READ
-        public List<Player> getAllPlayer(boolean printOut) {
+        public List<Tournament> getAll() {
             EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
             EntityTransaction transaction = null;
             try {
                 transaction = entityManager.getTransaction();
                 transaction.begin();
-                List<Player> listToReturn = new ArrayList<>(entityManager.createQuery("SELECT p FROM Player p", Player.class).getResultList());
+                List<Tournament> listToReturn = new ArrayList<>(entityManager.createQuery("SELECT t FROM Tournament t", Tournament.class).getResultList());
                 transaction.commit();
-                if (printOut) {
-                    for (Player player :
-                            listToReturn) {
-                        System.out.println(player.getPlayerId() + ". " + player.getTeam() + ". " + player.getPerson());
-                    }
-                }
                 return listToReturn;
             } catch (Exception e) {
                 if (transaction != null) {
@@ -63,15 +54,15 @@
             return null;
         }
 
-        public Player getPlayerById(int playerId) {
+        public Tournament getById(int id) {
             EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
             EntityTransaction transaction = null;
             try {
                 transaction = entityManager.getTransaction();
                 transaction.begin();
-                Player playerToReturn = entityManager.find(Player.class, playerId);
+                Tournament tournamentToReturn = entityManager.find(Tournament.class, id);
                 transaction.commit();
-                return playerToReturn;
+                return tournamentToReturn;
             } catch (Exception e) {
                 if (transaction != null) {
                     transaction.rollback();
@@ -83,14 +74,14 @@
             return null;
         }
 
-        public List<Player> getByGameId(int id) {
+        public List<Tournament> getByGameId(int id) {
             EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
             EntityTransaction transaction = null;
             try {
                 transaction = entityManager.getTransaction();
                 transaction.begin();
-                List<Player> listToReturn = new ArrayList<>(entityManager.
-                        createQuery("SELECT t FROM Player t WHERE t.game.id = :game_id", Player.class)
+                List<Tournament> listToReturn = new ArrayList<>(entityManager.
+                        createQuery("SELECT t FROM Tournament t WHERE t.game.id = :game_id", Tournament.class)
                         .setParameter("game_id", id).getResultList());
                 transaction.commit();
                 return listToReturn;
@@ -105,15 +96,13 @@
             return null;
         }
 
-        public boolean update(Player player){
+        public boolean update(Tournament tournament){
             EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
             EntityTransaction transaction = null;
             try {
                 transaction = entityManager.getTransaction();
                 transaction.begin();
-                entityManager.merge(player.getPerson());
-                player.setPlayerId(player.getPerson().getId());
-                entityManager.merge(player);
+                entityManager.merge(tournament);
                 transaction.commit();
                 return true;
             } catch (Exception e){
@@ -127,13 +116,13 @@
             return false;
         }
 
-        public boolean deletePlayerById(int playerId) {
+        public boolean deleteById(int id) {
             EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
             EntityTransaction transaction = null;
             try {
                 transaction = entityManager.getTransaction();
                 transaction.begin();
-                entityManager.remove(entityManager.contains(playerId) ? playerId : entityManager.merge(playerId));
+                entityManager.remove(entityManager.contains(id) ? id : entityManager.merge(id));
                 transaction.commit();
                 return true;
             } catch (Exception e) {
@@ -147,13 +136,13 @@
             return false;
         }
 
-        public boolean deletePlayer(Player player) {
+        public boolean delete(Tournament tournament) {
             EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
             EntityTransaction transaction = null;
             try {
                 transaction = entityManager.getTransaction();
                 transaction.begin();
-                entityManager.remove(entityManager.contains(player) ? player : entityManager.merge(player));
+                entityManager.remove(entityManager.contains(tournament) ? tournament : entityManager.merge(tournament));
                 transaction.commit();
                 return true;
             } catch (Exception e) {
@@ -166,68 +155,4 @@
             }
             return false;
         }
-
-        public boolean deletePlayerByName(String playerName) {
-            EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
-            EntityTransaction transaction = null;
-            try {
-                transaction = entityManager.getTransaction();
-                transaction.begin();
-
-                TypedQuery<Player> query = entityManager.createQuery(
-                        "SELECT p FROM Player p WHERE " +
-                                "p.person.firstName = :name OR " +
-                                "p.person.lastName = :name OR " +
-                                "p.person.nickName = :name",
-                        Player.class
-                );
-                query.setParameter("name", playerName);
-
-                List<Player> playersToDelete = query.getResultList();
-
-                for (Player player : playersToDelete) {
-                    entityManager.remove(player);
-                }
-
-                transaction.commit();
-                return true;
-            } catch (Exception e) {
-                if (transaction != null) {
-                    transaction.rollback();
-                }
-                e.printStackTrace();
-            } finally {
-                entityManager.close();
-            }
-            return false;
-        }
-
-        /*
-        public boolean addTeamToPlayer(int teamId, int playerId){
-            EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
-            EntityTransaction transaction = null;
-            Player player;
-            try {
-                transaction = entityManager.getTransaction();
-                transaction.begin();
-                Optional<Player> possiblyAPlayer = Optional.ofNullable(entityManager.find(Player.class,playerId));
-                Optional<Team> possiblyATeam = Optional.ofNullable(entityManager.find(Team.class, teamId));
-                if(possiblyAPlayer.isPresent() && possiblyATeam.isPresent()){
-                    System.out.println("Båda finns");
-                    Team teamClass = possiblyATeam.get();
-                    player = possiblyAPlayer.get();
-                    player.addTeamClass(teamClass);
-                }
-                transaction.commit();
-                return true;
-            } catch (Exception e){
-                if(transaction != null){
-                    transaction.rollback();
-                }
-                e.printStackTrace();
-            } finally {
-                entityManager.close();
-            }
-            return false;
-        }*/
     }

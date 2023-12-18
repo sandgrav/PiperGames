@@ -31,24 +31,29 @@ public class Player {
     @JoinColumn(name = "game_id")
     private Game game;
 
+    @ManyToMany //(mappedBy = "tournament_players")
+    private List<Tournament> tournaments;
+
     public Player() {
     }
 
-    public Player(int playerId, Person person, Team team, List<MatchSolo> matchesAsPlayer1, List<MatchSolo> matchesAsPlayer2, Game game) {
+    public Player(int playerId, Person person, Team team, List<MatchSolo> matchesAsPlayer1, List<MatchSolo> matchesAsPlayer2, Game game, List<Tournament> tournaments) {
         this.playerId = playerId;
         this.person = person;
         this.team = team;
         this.matchesAsPlayer1 = matchesAsPlayer1;
         this.matchesAsPlayer2 = matchesAsPlayer2;
         this.game = game;
+        this.tournaments = tournaments;
     }
 
-    public Player(Person person, Team team, List<MatchSolo> matchesAsPlayer1, List<MatchSolo> matchesAsPlayer2, Game game) {
+    public Player(Person person, Team team, List<MatchSolo> matchesAsPlayer1, List<MatchSolo> matchesAsPlayer2, Game game, List<Tournament> tournaments) {
         this.person = person;
         this.team = team;
         this.matchesAsPlayer1 = matchesAsPlayer1;
         this.matchesAsPlayer2 = matchesAsPlayer2;
         this.game = game;
+        this.tournaments = tournaments;
     }
 
     public Game getGame() {

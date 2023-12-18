@@ -23,6 +23,9 @@ public class MatchSolo {
     @Column(name = "date")
     private LocalDateTime date;
 
+    @ManyToOne
+    @JoinColumn(name = "tournament_id")
+    private Tournament tournament;
 
     public MatchSolo() {
     }
