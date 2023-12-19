@@ -1,0 +1,44 @@
+/*Color gradient*/
+
+
+/* Apply styles to TableView and its cells */
+.table-view {
+    -fx-background-color: #f0f0f0; /* Set the background color */
+}
+
+/* Apply styles to all columns */
+.table-view .table-column {
+    -fx-alignment: CENTER; /* Align content to center */
+    -fx-font-size: 14px; /* Change font size */
+    -fx-text-fill: #333333; /* Change text color */
+    -fx-padding: 5px; /* Add padding to the column */
+}
+
+/* Style a specific column by its ID */
+.table-view .table-column#nickNameCol {
+    -fx-text-fill: #FF6600; /* Change text color of the nickNameCol */
+    -fx-font-weight: bold; /* Make text bold for the nickNameCol */
+    /* Add more specific styles for nickNameCol */
+}
+
+.table-row-cell {
+    -fx-text-fill: black; /* Set the text color */
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #cceeff; /* Set the background color of selected rows */
+}
+
+.button:hover {
+    -fx-background-color: #e0e0e0;
+}
+
+/* Clicked outline effect */
+.button:pressed {
+    -fx-border-color: blue;
+    -fx-border-width: 2px;
+}
+
+.colorBackground {
+
+}

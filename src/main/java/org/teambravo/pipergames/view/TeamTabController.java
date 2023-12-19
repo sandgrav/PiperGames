@@ -82,9 +82,7 @@ public class TeamTabController implements Initializable {
 
         teamTable.setItems(teamItems);
 
-        // teamTable.getSelectionModel().setCellSelectionEnabled(true);
 
-        // teamTable.setEditable(true);
 
         Lag.setCellFactory(TextFieldTableCell.forTableColumn());
 
@@ -238,12 +236,6 @@ public class TeamTabController implements Initializable {
                 player.setTeam(team);
                 playerController.update(player);
             }
-
-            // Refresh
-            // List<Player> updatedPlayers = playerController.getAllPlayer(true);
-            // ObservableList<Player> updatedPlayerItems = FXCollections.observableArrayList(updatedPlayers);
-            // playerTable.getItems().clear();
-            // playerTable.getItems().addAll(updatedPlayerItems);
         }
     }
 

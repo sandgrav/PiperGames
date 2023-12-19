@@ -23,6 +23,7 @@ public class MatchSolo {
     @Column(name = "date")
     private LocalDateTime date;
 
+    @ManyToOne
     @JoinColumn(name = "winner_id")
     private Player winner;
 

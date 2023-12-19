@@ -255,7 +255,7 @@ public class TeamMatchTabController implements Initializable {
                         }
                     }
                 }
-        );//Lägg till Check TodaysDate metod
+        );
 
         //
         winnerCmb.setButtonCell(teamCellFactory.call(null));

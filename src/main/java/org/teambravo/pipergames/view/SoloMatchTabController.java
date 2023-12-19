@@ -68,15 +68,6 @@ public class SoloMatchTabController implements Initializable {
     @FXML
     private ComboBox<Player> winnerCmb;
 
-
-    @FXML
-    private TextField textFieldDeleteMatch;
-    @FXML
-    private TextField player1AddToMatchText;
-
-    @FXML
-    private TextField player2AddToMatchText;
-
     @FXML
     private TextField dateAddSoloMatchText;
 

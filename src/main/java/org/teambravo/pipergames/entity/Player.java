@@ -21,11 +21,11 @@ public class Player {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    @OneToMany(mappedBy = "player1", orphanRemoval = true)
-    private List<MatchSolo> matchesAsPlayer1 = new ArrayList<>();
+    // @OneToMany(mappedBy = "player1", orphanRemoval = true)
+    // private List<MatchSolo> matchesAsPlayer1 = new ArrayList<>();
 
-    @OneToMany(mappedBy = "player2", orphanRemoval = true)
-    private List<MatchSolo> matchesAsPlayer2 = new ArrayList<>();
+    // @OneToMany(mappedBy = "player2", orphanRemoval = true)
+    // private List<MatchSolo> matchesAsPlayer2 = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "game_id")
@@ -41,8 +41,8 @@ public class Player {
         this.playerId = playerId;
         this.person = person;
         this.team = team;
-        this.matchesAsPlayer1 = matchesAsPlayer1;
-        this.matchesAsPlayer2 = matchesAsPlayer2;
+        // this.matchesAsPlayer1 = matchesAsPlayer1;
+        // this.matchesAsPlayer2 = matchesAsPlayer2;
         this.game = game;
         this.tournaments = tournaments;
     }
@@ -50,8 +50,8 @@ public class Player {
     public Player(Person person, Team team, List<MatchSolo> matchesAsPlayer1, List<MatchSolo> matchesAsPlayer2, Game game, List<Tournament> tournaments) {
         this.person = person;
         this.team = team;
-        this.matchesAsPlayer1 = matchesAsPlayer1;
-        this.matchesAsPlayer2 = matchesAsPlayer2;
+        // this.matchesAsPlayer1 = matchesAsPlayer1;
+        // this.matchesAsPlayer2 = matchesAsPlayer2;
         this.game = game;
         this.tournaments = tournaments;
     }
@@ -88,7 +88,7 @@ public class Player {
         this.team = team;
     }
 
-    public List<MatchSolo> getMatchesAsPlayer1() {
+    /*public List<MatchSolo> getMatchesAsPlayer1() {
         return matchesAsPlayer1;
     }
 
@@ -102,7 +102,7 @@ public class Player {
 
     public void setMatchesAsPlayer2(List<MatchSolo> matchesAsPlayer2) {
         this.matchesAsPlayer2 = matchesAsPlayer2;
-    }
+    } */
 
 }
 

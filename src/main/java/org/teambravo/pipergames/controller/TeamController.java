@@ -65,33 +65,6 @@ public class TeamController {
         return null;
     }
 
-    // get all teams
-    public List<Team> getTeamByName(String teamName) {
-        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        EntityTransaction transaction = null;
-
-        try {
-            transaction = entityManager.getTransaction();
-            transaction.begin();
-
-            List<Team> teamResultList = entityManager
-                    .createQuery("FROM Team t WHERE t.name = :teamName", Team.class)
-                    .setParameter("teamName", teamName)
-                    .getResultList();
-
-            transaction.commit();
-
-            return teamResultList;
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        } finally {
-            entityManager.close();
-        }
-        return null;
-    }
     //Get team by one singular name
     public Team getTeamByOneName(String teamName) {
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
@@ -150,35 +123,7 @@ public class TeamController {
             entityManager.close();
         }
     }
-    public boolean deleteTeam(int teamId) {
-        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        EntityTransaction transaction = null;
 
-        try {
-            transaction = entityManager.getTransaction();
-            transaction.begin();
-
-
-            Team teamToDelete = entityManager.find(Team.class, teamId);
-
-            if (teamToDelete != null) {
-                entityManager.remove(teamToDelete);
-                transaction.commit();
-                return true;
-            }
-
-            transaction.rollback();
-            return false;
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-            return false;
-        } finally {
-            entityManager.close();
-        }
-    }
 
     public boolean deleteTeamByName(String name) {
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
