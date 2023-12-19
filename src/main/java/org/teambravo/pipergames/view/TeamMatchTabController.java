@@ -14,10 +14,7 @@ import javafx.util.StringConverter;
 import org.teambravo.pipergames.controller.GameController;
 import org.teambravo.pipergames.controller.MatchTeamController;
 import org.teambravo.pipergames.controller.TeamController;
-import org.teambravo.pipergames.entity.Game;
-import org.teambravo.pipergames.entity.MatchTeam;
-import org.teambravo.pipergames.entity.Player;
-import org.teambravo.pipergames.entity.Team;
+import org.teambravo.pipergames.entity.*;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -57,6 +54,8 @@ public class TeamMatchTabController implements Initializable {
     private TextField dateAddTeamMatchText;
     @FXML
     private ComboBox<Team> winnerCmb;
+    @FXML
+    private TableColumn<MatchTeam, String> statusCol;
 
     @FXML
     private void handleDeleteTeamMatchButton(ActionEvent event) {
@@ -239,6 +238,14 @@ public class TeamMatchTabController implements Initializable {
                 return null;
             }
         });
+        statusCol.setCellValueFactory(tf -> {
+            if (tf.getValue().getDate().isBefore(LocalDate.now().atStartOfDay())) {
+                return new SimpleStringProperty("Avgjord");
+            } else {
+                return new SimpleStringProperty("Kommande");
+            }
+        });
+
 
         ObservableList<MatchTeam> matchTeamSelectedItems = teamMatchTable.getSelectionModel().getSelectedItems();
         matchTeamSelectedItems.addListener(
@@ -255,7 +262,7 @@ public class TeamMatchTabController implements Initializable {
                         }
                     }
                 }
-        );//Lägg till Check TodaysDate metod
+        );
 
         //
         winnerCmb.setButtonCell(teamCellFactory.call(null));
