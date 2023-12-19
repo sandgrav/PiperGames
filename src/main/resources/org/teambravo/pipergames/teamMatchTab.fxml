@@ -24,9 +24,10 @@
                             <columns>
                                 <TableColumn fx:id="teamMatchIdColumn" minWidth="75.0" prefWidth="-1.0" text="MatchID" />
                                 <TableColumn fx:id="teamDateCol" minWidth="75.0" prefWidth="-1.0" text="Datum" />
-                                <TableColumn fx:id="team1TableColumn" minWidth="75.0" prefWidth="-1.0" text="Team1" />
-                                <TableColumn fx:id="team2TableCol" minWidth="75.0" prefWidth="-1.0" text="Team 2" />
-                                <TableColumn fx:id="winnerTeamTableCol" minWidth="75.0" prefWidth="-1.0" text="Winner" />
+                                <TableColumn fx:id="team1TableColumn" minWidth="75.0" prefWidth="-1.0" text="Lag 1" />
+                                <TableColumn fx:id="team2TableCol" minWidth="75.0" prefWidth="-1.0" text="Lag 2" />
+                                <TableColumn fx:id="statusCol" prefWidth="75.0" text="Status" />
+                                <TableColumn fx:id="winnerTeamTableCol" minWidth="75.0" prefWidth="-1.0" text="Vinnare" />
 
                             </columns>
                         </TableView>
