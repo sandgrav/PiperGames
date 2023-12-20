@@ -8,11 +8,9 @@ import java.util.List;
 public class Player {
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "player_id")
-    private Integer playerId;
+    @Column(name = "person_person_id")
+    private Integer id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "person_id")
     @OneToOne(orphanRemoval = true)
     @MapsId
     private Person person;
@@ -21,24 +19,41 @@ public class Player {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    @OneToMany(mappedBy = "player1", orphanRemoval = true)
+    @OneToMany(mappedBy = "player1", orphanRemoval = true)  //, fetch = FetchType.EAGER,orphanRemoval = true)
     private List<MatchSolo> matchesAsPlayer1 = new ArrayList<>();
 
-    @OneToMany(mappedBy = "player2", orphanRemoval = true)
+    @OneToMany(mappedBy = "player2", orphanRemoval = true)  //, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<MatchSolo> matchesAsPlayer2 = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "game_id")
     private Game game;
 
-    @ManyToMany //(mappedBy = "tournament_players")
-    private List<Tournament> tournaments;
+    @OneToMany(
+            mappedBy = "player",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER
+    )
+    private List<TournamentPlayer> tournaments = new ArrayList<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Player)) return false;
+        return id != null && id.equals(((Player) o).getPerson().getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 
     public Player() {
     }
 
-    public Player(int playerId, Person person, Team team, List<MatchSolo> matchesAsPlayer1, List<MatchSolo> matchesAsPlayer2, Game game, List<Tournament> tournaments) {
-        this.playerId = playerId;
+    public Player(Integer playerId, Person person, Team team, List<MatchSolo> matchesAsPlayer1, List<MatchSolo> matchesAsPlayer2, Game game, List<TournamentPlayer> tournaments) {
+        this.id = playerId;
         this.person = person;
         this.team = team;
         this.matchesAsPlayer1 = matchesAsPlayer1;
@@ -47,7 +62,7 @@ public class Player {
         this.tournaments = tournaments;
     }
 
-    public Player(Person person, Team team, List<MatchSolo> matchesAsPlayer1, List<MatchSolo> matchesAsPlayer2, Game game, List<Tournament> tournaments) {
+    public Player(Person person, Team team, List<MatchSolo> matchesAsPlayer1, List<MatchSolo> matchesAsPlayer2, Game game, List<TournamentPlayer> tournaments) {
         this.person = person;
         this.team = team;
         this.matchesAsPlayer1 = matchesAsPlayer1;
@@ -56,20 +71,12 @@ public class Player {
         this.tournaments = tournaments;
     }
 
-    public Game getGame() {
-        return game;
+    public Integer getId() {
+        return id;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
-    }
-
-    public Integer getPlayerId() {
-        return playerId;
-    }
-
-    public void setPlayerId(Integer playerId) {
-        this.playerId = playerId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Person getPerson() {
@@ -104,5 +111,20 @@ public class Player {
         this.matchesAsPlayer2 = matchesAsPlayer2;
     }
 
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public List<TournamentPlayer> getTournaments() {
+        return tournaments;
+    }
+
+    public void setTournaments(List<TournamentPlayer> tournaments) {
+        this.tournaments = tournaments;
+    }
 }
 

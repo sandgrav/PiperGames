@@ -12,14 +12,14 @@ import javafx.scene.control.*;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import org.teambravo.pipergames.controller.GameController;
+import org.teambravo.pipergames.controller.MatchSoloController;
 import org.teambravo.pipergames.controller.PlayerController;
 import org.teambravo.pipergames.controller.TournamentController;
-import org.teambravo.pipergames.entity.Game;
-import org.teambravo.pipergames.entity.Player;
-import org.teambravo.pipergames.entity.Team;
-import org.teambravo.pipergames.entity.Tournament;
+import org.teambravo.pipergames.entity.*;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class TournamentTabController implements Initializable {
@@ -110,6 +110,42 @@ public class TournamentTabController implements Initializable {
 
     @FXML
     protected void handleStartFirstRoundButtonAction(ActionEvent e) {
+        if (tournament != null) {
+            Random random = new Random();
+            int index;
+            ObservableList<Player> selectedPlayers = playerTable.getSelectionModel().getSelectedItems();
+            List<Player> players = new ArrayList<>();
+            Player[] randomPlayers = new Player[8];
+            for (int i = 0; i < selectedPlayers.size(); i++) {
+                do {
+                    index = random.nextInt(8);
+                } while (randomPlayers[index] != null);
+                randomPlayers[index] = selectedPlayers.get(i);
+                tournament.addPlayer(selectedPlayers.get(i), 1, index);
+            }
+            label1.setText(randomPlayers[0].getPerson().getNickName());
+            label2.setText(randomPlayers[1].getPerson().getNickName());
+            label3.setText(randomPlayers[2].getPerson().getNickName());
+            label4.setText(randomPlayers[3].getPerson().getNickName());
+            label5.setText(randomPlayers[4].getPerson().getNickName());
+            label6.setText(randomPlayers[5].getPerson().getNickName());
+            label7.setText(randomPlayers[6].getPerson().getNickName());
+            label8.setText(randomPlayers[7].getPerson().getNickName());
+            MatchSolo matchSolo;
+            for (int i = 0; i < randomPlayers.length; i+=2) {
+                matchSolo = new MatchSolo(randomPlayers[i], randomPlayers[i+1],
+                        dateQuarterFinal.getValue(), null, tournament);
+                MatchSoloController matchSoloController = new MatchSoloController();
+                matchSoloController.createMatchSoloPlayer(matchSolo);
+                tournament.addMatch(matchSolo);
+            }
+            TournamentController tournamentController = new TournamentController();
+            tournamentController.update(tournament);
+        }
+    }
+
+    @FXML
+    protected void handleStartSecondRoundButtonAction(ActionEvent e) {
         Random random = new Random();
         int index;
         ObservableList<Player> selectedPlayers = playerTable.getSelectionModel().getSelectedItems();
@@ -147,12 +183,90 @@ public class TournamentTabController implements Initializable {
                     break;
             }
         }
-        Collections.addAll(players, randomPlayers);
-        tournament.setPlayers(players);
+    }
+
+    @FXML
+    protected void handleStartThirdRoundButtonAction(ActionEvent e) {
+        Random random = new Random();
+        int index;
+        ObservableList<Player> selectedPlayers = playerTable.getSelectionModel().getSelectedItems();
+        List<Player> players = new ArrayList<>();
+        Player[] randomPlayers = new Player[8];
+        for (int i = 0; i < selectedPlayers.size(); i++) {
+            do {
+                index = random.nextInt(8);
+            } while (randomPlayers[index] != null);
+            randomPlayers[index] = selectedPlayers.get(i);
+            switch (index) {
+                case 0:
+                    label1.setText(selectedPlayers.get(i).getPerson().getNickName());
+                    break;
+                case 1:
+                    label2.setText(selectedPlayers.get(i).getPerson().getNickName());
+                    break;
+                case 2:
+                    label3.setText(selectedPlayers.get(i).getPerson().getNickName());
+                    break;
+                case 3:
+                    label4.setText(selectedPlayers.get(i).getPerson().getNickName());
+                    break;
+                case 4:
+                    label5.setText(selectedPlayers.get(i).getPerson().getNickName());
+                    break;
+                case 5:
+                    label6.setText(selectedPlayers.get(i).getPerson().getNickName());
+                    break;
+                case 6:
+                    label7.setText(selectedPlayers.get(i).getPerson().getNickName());
+                    break;
+                case 7:
+                    label8.setText(selectedPlayers.get(i).getPerson().getNickName());
+                    break;
+            }
+        }
+    }
+
+    @FXML
+    protected void handleFinalFinishedButtonAction(ActionEvent e) {
+
     }
 
     @FXML
     protected void handleNewTournamentButtonAction(ActionEvent e) {
+        if (gameCmb.getValue() == null) {
+            // No game ...
+        } else if (tournamentNameText.getText().isEmpty()) {
+            // No name ...
+        } else {
+            TournamentController tournamentController = new TournamentController();
+            tournament = new Tournament();
+            tournament.setGame(gameCmb.getValue());
+            tournament.setName(tournamentNameText.getText());
+            if (tournamentController.save(tournament)) {
+                tournamentTable.getItems().add(tournament);
+            }
+        }
+    }
+
+    @FXML
+    protected void handleUpdateTournamentButtonAction(ActionEvent e) {
+        if (gameCmb.getValue() == null) {
+            // No game ...
+        } else if (tournamentNameText.getText().isEmpty()) {
+            // No name ...
+        } else {
+            TournamentController tournamentController = new TournamentController();
+            tournament = new Tournament();
+            tournament.setGame(gameCmb.getValue());
+            tournament.setName(tournamentNameText.getText());
+            if (tournamentController.save(tournament)) {
+                tournamentTable.getItems().add(tournament);
+            }
+        }
+    }
+
+    @FXML
+    protected void handleDeleteTournamentButtonAction(ActionEvent e) {
         if (gameCmb.getValue() == null) {
             // No game ...
         } else if (tournamentNameText.getText().isEmpty()) {

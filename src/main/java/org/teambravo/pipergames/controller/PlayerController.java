@@ -21,7 +21,7 @@
                 transaction = entityManager.getTransaction();
                 transaction.begin();
                 entityManager.persist(player.getPerson());
-                player.setPlayerId(player.getPerson().getId());
+                player.setId(player.getPerson().getId());
                 entityManager.persist(player);
                 transaction.commit();
                 return true;
@@ -48,7 +48,7 @@
                 if (printOut) {
                     for (Player player :
                             listToReturn) {
-                        System.out.println(player.getPlayerId() + ". " + player.getTeam() + ". " + player.getPerson());
+                        System.out.println(player.getId() + ". " + player.getTeam() + ". " + player.getPerson());
                     }
                 }
                 return listToReturn;
@@ -112,7 +112,7 @@
                 transaction = entityManager.getTransaction();
                 transaction.begin();
                 entityManager.merge(player.getPerson());
-                player.setPlayerId(player.getPerson().getId());
+                player.setId(player.getPerson().getId());
                 entityManager.merge(player);
                 transaction.commit();
                 return true;
