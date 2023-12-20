@@ -108,7 +108,7 @@ public class SoloMatchTabController implements Initializable {
             try {
                 // Uppdatera datum
                 LocalDate newDate = LocalDate.parse(dateAddSoloMatchText.getText(), DateTimeFormatter.ISO_LOCAL_DATE);
-                selectedMatch.setDate(newDate.atStartOfDay());
+                selectedMatch.setDate(newDate);
 
                 // Uppdatera spelare 1
                 Player player1 = player1AddToMatchToCB.getValue();
@@ -163,7 +163,7 @@ public class SoloMatchTabController implements Initializable {
                 }
                 // Skapar ett nytt objekt
                 MatchSolo newMatch = new MatchSolo();
-                newMatch.setDate(newDate.atStartOfDay());
+                newMatch.setDate(newDate);
                 newMatch.setPlayer1(selectedPlayer1);
                 newMatch.setPlayer2(selectedPlayer2);
 
@@ -221,7 +221,7 @@ public class SoloMatchTabController implements Initializable {
                 player2AddToMatchToCB.setValue(selectedMatch.getPlayer2());
                 winnerCmb.setValue(selectedMatch.getWinner());
 
-                LocalDate matchDate = selectedMatch.getDate().toLocalDate();
+                LocalDate matchDate = selectedMatch.getDate();
                 dateAddSoloMatchText.setText(matchDate.format(DateTimeFormatter.ISO_LOCAL_DATE));
             }
         });

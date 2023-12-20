@@ -122,7 +122,7 @@
                               <DatePicker fx:id="dateSemiFinal" />
                            </children>
                         </VBox>
-                        <Button disable="true" mnemonicParsing="false" text="Start 2 runde" />
+                        <Button disable="true" mnemonicParsing="false" onAction="#handleStartSecondRoundButtonAction" text="Start 2 runde" />
                         <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                            <children>
                               <Label prefHeight="24.0" prefWidth="100.0" text="Label" textAlignment="CENTER" VBox.vgrow="ALWAYS">
@@ -166,7 +166,7 @@
                               <DatePicker fx:id="dateFinal" />
                            </children>
                         </VBox>
-                        <Button disable="true" mnemonicParsing="false" text="Start 3 runde" />
+                        <Button disable="true" mnemonicParsing="false" onAction="#handleStartThirdRoundButtonAction" text="Start 3 runde" />
                         <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                            <children>
                               <Label prefHeight="24.0" prefWidth="100.0" text="Label" textAlignment="CENTER">
@@ -195,7 +195,7 @@
                   <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                      <children>
                         <VBox prefHeight="42.0" prefWidth="100.0" />
-                        <Button disable="true" mnemonicParsing="false" text="Final avslutad" />
+                        <Button disable="true" mnemonicParsing="false" onAction="#handleFinalFinishedButtonAction" text="Final avslutad" />
                         <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                            <children>
                               <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
@@ -213,7 +213,9 @@
       </VBox>
       <VBox spacing="10.0">
          <children>
-            <Button fx:id="newTournamentButton" mnemonicParsing="false" onAction="#handleNewTournamentButtonAction" text="Ny turnering" />
+            <Button fx:id="newTournamentButton" mnemonicParsing="false" onAction="#handleNewTournamentButtonAction" prefWidth="85.0" text="Ny turnering" />
+            <Button fx:id="updateTournamentButton" mnemonicParsing="false" onAction="#handleUpdateTournamentButtonAction" prefWidth="85.0" text="Uppdatera" />
+            <Button fx:id="deleteTournamentButton" mnemonicParsing="false" onAction="#handleDeleteTournamentButtonAction" prefWidth="85.0" text="Ta bort" />
          </children>
          <padding>
             <Insets top="16.0" />

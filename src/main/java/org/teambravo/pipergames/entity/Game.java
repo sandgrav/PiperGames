@@ -40,6 +40,7 @@ public class Game {
     }
 
     public void addPlayer(Player player){
+        player.setGame(this);
         players.add(player);
     }
 
