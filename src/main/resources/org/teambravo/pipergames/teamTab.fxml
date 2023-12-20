@@ -3,7 +3,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.teambravo.pipergames.view.TeamTabController">
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.effect.ColorAdjust?>
+
+<AnchorPane stylesheets="@color.css" styleClass="colorBackground" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.teambravo.pipergames.view.TeamTabController">
     <children>
         <TableView fx:id="teamTable" layoutX="14.0" layoutY="30.0" prefHeight="359.0" prefWidth="185.0">
             <columns>
@@ -19,16 +22,24 @@
             <TableColumn fx:id="nickNameCol" prefWidth="98.0" text="Nickname" />
         </columns>
       </TableView>
-        <Button fx:id="addTeamButton" layoutX="476.0" layoutY="99.0" mnemonicParsing="false" onAction="#AddTeamButtonAction" text="Lägg till" />
-      <Button layoutX="479.0" layoutY="298.0" mnemonicParsing="false" onAction="#AddPlayerButtonAction" text="Lägg till" />
-      <Button layoutX="479.0" layoutY="330.0" mnemonicParsing="false" text="Ändra" />
+        <Button fx:id="addTeamButton" layoutX="476.0" layoutY="99.0" mnemonicParsing="false" onAction="#AddTeamButtonAction" text="Lägg till lag" styleClass="colorBackground"
+                stylesheets="color.css"/>
+      <Button layoutX="479.0" layoutY="298.0" mnemonicParsing="false" onAction="#AddPlayerButtonAction" text="Lägg till spelare" styleClass="colorBackground"
+              stylesheets="@color.css" />
+      <Button layoutX="479.0" layoutY="330.0" mnemonicParsing="false" text="Ändra" styleClass="colorBackground"
+              stylesheets="@color.css"/>
       <TextField fx:id="teamTextField" layoutX="476.0" layoutY="65.0" prefHeight="26.0" prefWidth="106.0" promptText="Ange lagnamn: " />
-      <Button layoutX="476.0" layoutY="130.0" mnemonicParsing="false" text="Ändra" />
-      <Button fx:id="deleteTeamByName" layoutX="476.0" layoutY="161.0" mnemonicParsing="false" onAction="#DeleteTeamButton" text="Ta bort" />
+      <Button layoutX="476.0" layoutY="130.0" mnemonicParsing="false" text="Ändra" styleClass="colorBackground"
+              stylesheets="@color.css" />
+      <Button fx:id="deleteTeamByName" layoutX="476.0" layoutY="161.0" mnemonicParsing="false" onAction="#DeleteTeamButton" text="Ta bort lag " styleClass="colorBackground"
+              stylesheets="@color.css" />
       <TextField fx:id="lastName" layoutX="476.0" layoutY="234.0" prefHeight="26.0" prefWidth="106.0" promptText="Ange efternamn:" />
       <TextField fx:id="nickName" layoutX="476.0" layoutY="266.0" prefHeight="26.0" prefWidth="106.0" promptText="Ange Nickname:" />
-      <Button layoutX="479.0" layoutY="360.0" mnemonicParsing="false" text="Ta bort" onAction="#DeletePlayerButton" />
-      <Button layoutX="14.0" layoutY="1.0" mnemonicParsing="false" onAction="#updateAllTables" text="Uppdatera sidan" />
+      <JFXButton layoutX="479.0" layoutY="360.0" mnemonicParsing="false" text="Ta bort spelare" onAction="#DeletePlayerButton" styleClass="colorBackground"
+                 stylesheets="@color.css"/>
+
+      <Button layoutX="14.0" layoutY="1.0" mnemonicParsing="false" onAction="#updateAllTables" text="Uppdatera spelare" styleClass="colorBackground"
+              stylesheets="@color.css" />
       <TextField fx:id="spelTextField" layoutX="476.0" layoutY="31.0" prefHeight="26.0" prefWidth="108.0" promptText="Ange spel:" />
     </children>
 

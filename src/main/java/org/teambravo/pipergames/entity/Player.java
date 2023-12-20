@@ -56,8 +56,8 @@ public class Player {
         this.id = playerId;
         this.person = person;
         this.team = team;
-        this.matchesAsPlayer1 = matchesAsPlayer1;
-        this.matchesAsPlayer2 = matchesAsPlayer2;
+        // this.matchesAsPlayer1 = matchesAsPlayer1;
+        // this.matchesAsPlayer2 = matchesAsPlayer2;
         this.game = game;
         this.tournaments = tournaments;
     }
@@ -65,8 +65,8 @@ public class Player {
     public Player(Person person, Team team, List<MatchSolo> matchesAsPlayer1, List<MatchSolo> matchesAsPlayer2, Game game, List<TournamentPlayer> tournaments) {
         this.person = person;
         this.team = team;
-        this.matchesAsPlayer1 = matchesAsPlayer1;
-        this.matchesAsPlayer2 = matchesAsPlayer2;
+        // this.matchesAsPlayer1 = matchesAsPlayer1;
+        // this.matchesAsPlayer2 = matchesAsPlayer2;
         this.game = game;
         this.tournaments = tournaments;
     }
@@ -95,7 +95,7 @@ public class Player {
         this.team = team;
     }
 
-    public List<MatchSolo> getMatchesAsPlayer1() {
+    /*public List<MatchSolo> getMatchesAsPlayer1() {
         return matchesAsPlayer1;
     }
 
@@ -109,7 +109,7 @@ public class Player {
 
     public void setMatchesAsPlayer2(List<MatchSolo> matchesAsPlayer2) {
         this.matchesAsPlayer2 = matchesAsPlayer2;
-    }
+    } */
 
     public Game getGame() {
         return game;

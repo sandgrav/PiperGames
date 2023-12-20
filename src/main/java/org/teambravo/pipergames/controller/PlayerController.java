@@ -201,33 +201,4 @@
             }
             return false;
         }
-
-        /*
-        public boolean addTeamToPlayer(int teamId, int playerId){
-            EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
-            EntityTransaction transaction = null;
-            Player player;
-            try {
-                transaction = entityManager.getTransaction();
-                transaction.begin();
-                Optional<Player> possiblyAPlayer = Optional.ofNullable(entityManager.find(Player.class,playerId));
-                Optional<Team> possiblyATeam = Optional.ofNullable(entityManager.find(Team.class, teamId));
-                if(possiblyAPlayer.isPresent() && possiblyATeam.isPresent()){
-                    System.out.println("Båda finns");
-                    Team teamClass = possiblyATeam.get();
-                    player = possiblyAPlayer.get();
-                    player.addTeamClass(teamClass);
-                }
-                transaction.commit();
-                return true;
-            } catch (Exception e){
-                if(transaction != null){
-                    transaction.rollback();
-                }
-                e.printStackTrace();
-            } finally {
-                entityManager.close();
-            }
-            return false;
-        }*/
     }

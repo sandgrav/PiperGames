@@ -67,15 +67,8 @@ public class SoloMatchTabController implements Initializable {
     private ChoiceBox<Player> player2AddToMatchToCB;
     @FXML
     private ComboBox<Player> winnerCmb;
-
-
     @FXML
-    private TextField textFieldDeleteMatch;
-    @FXML
-    private TextField player1AddToMatchText;
-
-    @FXML
-    private TextField player2AddToMatchText;
+    private TableColumn<MatchSolo, String> statusCol;
 
     @FXML
     private TextField dateAddSoloMatchText;
@@ -230,6 +223,13 @@ public class SoloMatchTabController implements Initializable {
 
                 LocalDate matchDate = selectedMatch.getDate();
                 dateAddSoloMatchText.setText(matchDate.format(DateTimeFormatter.ISO_LOCAL_DATE));
+            }
+        });
+        statusCol.setCellValueFactory(tf -> {
+            if (tf.getValue().getDate().isBefore(LocalDate.now().atStartOfDay())) {
+                return new SimpleStringProperty("Avgjord");
+            } else {
+                return new SimpleStringProperty("Kommande");
             }
         });
 

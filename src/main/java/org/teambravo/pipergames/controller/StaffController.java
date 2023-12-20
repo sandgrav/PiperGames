@@ -47,12 +47,10 @@ public class StaffController {
             transaction = entityManager.getTransaction();
             transaction.begin();
             List<Staff> staffResultList = entityManager.createQuery("FROM Staff ", Staff.class).getResultList();
-            // teamClassToReturn.addAll(teamResultList.getResultList());
             transaction.commit();
             if (printOut) {
                 for (Staff staff :
                         staffResultList) {
-//                    System.out.println(staffClass.getStaff_id() + ". " + staffClass.getPerson());
                     System.out.println(staff.getId() + ". " + staff.getPerson());
 
                 }
